@@ -7,3 +7,1429 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  /* ============ THEME: DEFAULT "VOID" ============
+     Deep indigo-black base, electric violet primary, cyan secondary.
+     More distinctive than pure green, still cyberpunk. */
+  :root {
+    --bg: #07060d;
+    --bg-2: #0b0a14;
+    --bg-3: #11101c;
+    --line: rgba(180, 140, 255, 0.09);
+    --line-2: rgba(255,255,255,0.05);
+    --fg: #e4def0;
+    --fg-dim: #8a83a3;
+    --fg-faint: #433d5c;
+    --phos: oklch(0.78 0.2 295);            /* violet */
+    --phos-2: oklch(0.66 0.22 295);
+    --phos-glow: oklch(0.78 0.2 295 / 0.4);
+    --cyan: oklch(0.86 0.14 210);           /* secondary cyan */
+    --danger: oklch(0.7 0.24 18);           /* blood red */
+    --amber: oklch(0.82 0.16 75);
+    --grid-tint: rgba(180, 140, 255, 0.04);
+    --halo-1: rgba(160, 110, 255, 0.14);
+    --halo-2: rgba(255, 60, 140, 0.07);
+    --radius: 2px;
+  }
+  /* ============ ALT THEME: "PHOSPHOR" (original green) ============ */
+  :root[data-theme="phosphor"] {
+    --bg: #07090a; --bg-2: #0b0f10; --bg-3: #10161a;
+    --line: rgba(120, 255, 180, 0.09);
+    --fg: #d8e4dc; --fg-dim: #7a8982; --fg-faint: #3d4944;
+    --phos: oklch(0.86 0.18 155);
+    --phos-2: oklch(0.7 0.2 155);
+    --phos-glow: oklch(0.86 0.18 155 / 0.35);
+    --cyan: oklch(0.82 0.14 195);
+    --danger: oklch(0.68 0.22 350);
+    --grid-tint: rgba(120,255,180,0.035);
+    --halo-1: rgba(120, 255, 180, 0.12);
+    --halo-2: rgba(255, 80, 200, 0.06);
+  }
+  /* ============ ALT THEME: "EMBER" (amber/red) ============ */
+  :root[data-theme="ember"] {
+    --bg: #0a0706; --bg-2: #110b09; --bg-3: #181110;
+    --line: rgba(255, 160, 100, 0.09);
+    --fg: #f0e4d8; --fg-dim: #9a8677; --fg-faint: #554236;
+    --phos: oklch(0.78 0.18 55);
+    --phos-2: oklch(0.66 0.2 45);
+    --phos-glow: oklch(0.78 0.18 55 / 0.42);
+    --cyan: oklch(0.82 0.14 55);
+    --danger: oklch(0.7 0.24 18);
+    --grid-tint: rgba(255,160,100,0.035);
+    --halo-1: rgba(255, 160, 100, 0.13);
+    --halo-2: rgba(255, 60, 60, 0.06);
+  }
+  /* ============ ALT THEME: "MONO" (grayscale, minimal) ============ */
+  :root[data-theme="mono"] {
+    --bg: #070708; --bg-2: #0c0c0e; --bg-3: #131316;
+    --line: rgba(255, 255, 255, 0.08);
+    --fg: #eaeaee; --fg-dim: #878791; --fg-faint: #3d3d46;
+    --phos: oklch(0.96 0.01 270);
+    --phos-2: oklch(0.85 0.01 270);
+    --phos-glow: oklch(0.96 0.01 270 / 0.25);
+    --cyan: oklch(0.75 0.01 270);
+    --danger: oklch(0.7 0.24 18);
+    --grid-tint: rgba(255,255,255,0.03);
+    --halo-1: rgba(255, 255, 255, 0.08);
+    --halo-2: rgba(255, 255, 255, 0.03);
+  }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  :root {
+    --radius: 2px;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); font-family: "Space Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, var(--halo-1), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 90% 110%, var(--halo-2), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+    transition: background .6s ease;
+  }
+  body::after {
+    /* scanlines */
+    content: "";
+    position: fixed; inset: 0;
+    background-image: repeating-linear-gradient(to bottom, rgba(255,255,255,0.015) 0 1px, transparent 1px 3px);
+    pointer-events: none;
+    z-index: 2;
+    mix-blend-mode: overlay;
+  }
+  .grid-bg {
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(to right, var(--grid-tint) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--grid-tint) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent 80%);
+    z-index: 1;
+    pointer-events: none;
+    transition: background-image .6s ease;
+  }
+  main { position: relative; z-index: 3; }
+  .container { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- NAV ---------- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 50;
+    backdrop-filter: blur(12px);
+    background: rgba(7, 9, 10, 0.6);
+    border-bottom: 1px solid var(--line-2);
+  }
+  .nav-inner {
+    max-width: 1320px; margin: 0 auto;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 32px;
+  }
+  .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--fg); }
+  .brand .wordmark {
+    font-family: "Space Grotesk";
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    font-size: 14px;
+    text-transform: uppercase;
+  }
+  .brand .version {
+    font-family: "JetBrains Mono"; font-size: 10px; color: var(--fg-faint);
+    padding: 2px 6px; border: 1px solid var(--line-2); border-radius: 2px;
+    margin-left: 6px;
+  }
+  nav ul { list-style: none; display: flex; gap: 34px; margin: 0; padding: 0; }
+  nav ul a {
+    color: var(--fg-dim); text-decoration: none;
+    font-family: "JetBrains Mono"; font-size: 12px;
+    letter-spacing: 0.06em;
+    transition: color .15s;
+  }
+  nav ul a:hover { color: var(--phos); }
+  .nav-cta {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: "JetBrains Mono"; font-size: 12px;
+    background: var(--phos); color: #051006;
+    padding: 9px 16px; border-radius: 2px;
+    border: 1px solid var(--phos);
+    text-decoration: none; font-weight: 600;
+    letter-spacing: 0.04em;
+    box-shadow: 0 0 24px var(--phos-glow);
+    transition: transform .15s, box-shadow .15s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 0 32px var(--phos-glow); }
+
+  /* ---------- LOGO ---------- */
+  .logo-mark { width: 28px; height: 28px; position: relative; }
+  .logo-mark svg { width: 100%; height: 100%; filter: drop-shadow(0 0 6px var(--phos-glow)); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 160px 0 60px;
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 72px;
+    align-items: center;
+  }
+  .eyebrow {
+    font-family: "JetBrains Mono"; font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--phos);
+    display: inline-flex; align-items: center; gap: 10px;
+    margin-bottom: 28px;
+  }
+  .eyebrow::before {
+    content: ""; width: 6px; height: 6px; background: var(--phos);
+    border-radius: 50%; box-shadow: 0 0 10px var(--phos);
+    animation: pulse 1.6s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.4;transform:scale(0.8)} }
+  h1.hero-title {
+    font-family: "Space Grotesk";
+    font-size: clamp(44px, 5.4vw, 80px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+    font-weight: 500;
+    margin: 0 0 28px;
+    color: #eef3ef;
+  }
+  h1.hero-title .strike {
+    position: relative;
+    color: var(--fg-dim);
+  }
+  h1.hero-title .strike::after {
+    content: "";
+    position: absolute; left: -2%; right: -2%; top: 52%;
+    height: 2px; background: var(--phos);
+    box-shadow: 0 0 12px var(--phos);
+  }
+  h1.hero-title em {
+    font-style: normal;
+    color: var(--phos);
+    font-family: "JetBrains Mono";
+    font-weight: 400;
+    letter-spacing: -0.02em;
+  }
+  .hero-sub {
+    font-size: 17px; line-height: 1.55;
+    color: var(--fg-dim);
+    max-width: 520px;
+    margin: 0 0 36px;
+  }
+  .cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .btn {
+    font-family: "JetBrains Mono"; font-size: 13px;
+    padding: 14px 22px; border-radius: 2px;
+    text-decoration: none; font-weight: 500;
+    letter-spacing: 0.04em;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: all .2s;
+    cursor: pointer;
+  }
+  .btn-primary {
+    background: var(--phos); color: #051006;
+    border: 1px solid var(--phos);
+    box-shadow: 0 0 24px var(--phos-glow);
+  }
+  .btn-primary:hover { box-shadow: 0 0 36px var(--phos-glow); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--fg);
+    border: 1px solid var(--line);
+  }
+  .btn-ghost:hover { border-color: var(--phos); color: var(--phos); }
+
+  .hero-meta {
+    display: flex; gap: 28px; margin-top: 44px;
+    font-family: "JetBrains Mono"; font-size: 11px;
+    color: var(--fg-faint); letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 8px; }
+  .hero-meta span::before {
+    content: "◆"; color: var(--phos); font-size: 8px;
+  }
+
+  /* ---------- HERO VIEWPORT (scrolling video effect) ---------- */
+  .viewport {
+    position: relative;
+    aspect-ratio: 4/5;
+    background: linear-gradient(180deg, var(--bg-2), var(--bg));
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 40px 80px -30px rgba(0,0,0,0.8), 0 0 60px -20px var(--phos-glow);
+  }
+  .viewport::before {
+    /* vignette */
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 90% 70% at 50% 40%, transparent, rgba(0,0,0,0.8));
+    pointer-events: none; z-index: 5;
+  }
+  .viewport::after {
+    /* scanline overlay */
+    content: "";
+    position: absolute; inset: 0;
+    background: linear-gradient(transparent 50%, rgba(0,0,0,0.3) 50%);
+    background-size: 100% 4px;
+    pointer-events: none; z-index: 6;
+    opacity: 0.4;
+    animation: scan 8s linear infinite;
+  }
+  @keyframes scan { from { background-position: 0 0; } to { background-position: 0 100%; } }
+
+  .vp-chrome {
+    position: relative; z-index: 4;
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px;
+    background: rgba(10,14,15,0.8);
+    border-bottom: 1px solid var(--line);
+    font-family: "JetBrains Mono"; font-size: 11px;
+    color: var(--fg-faint);
+  }
+  .vp-dots { display: flex; gap: 6px; }
+  .vp-dots i { display: block; width: 10px; height: 10px; border-radius: 50%; background: #222; border: 1px solid #2a2a2a; }
+  .vp-title { flex: 1; text-align: center; color: var(--fg-dim); letter-spacing: 0.12em; }
+  .vp-title b { color: var(--phos); font-weight: 500; }
+  .vp-rec { display: flex; align-items: center; gap: 6px; color: var(--danger); }
+  .vp-rec::before { content:""; width:6px;height:6px;border-radius:50%;background:var(--danger); animation: pulse 1.2s infinite; }
+
+  .vp-body {
+    position: relative;
+    height: calc(100% - 41px);
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+  }
+  .vp-panel {
+    overflow: hidden; position: relative;
+    border-bottom: 1px solid var(--line);
+  }
+  .vp-panel:last-child { border-bottom: none; }
+  .vp-panel-head {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 8px 14px;
+    background: linear-gradient(180deg, rgba(10,14,15,0.95), transparent);
+    font-family: "JetBrains Mono"; font-size: 10px;
+    color: var(--fg-faint); letter-spacing: 0.16em;
+    text-transform: uppercase;
+    z-index: 3;
+    display: flex; justify-content: space-between;
+  }
+  .vp-panel-head b { color: var(--phos); font-weight: 500; }
+  .scroll-track {
+    position: absolute; top: 0; left: 0; right: 0;
+    padding: 32px 16px 16px;
+    font-family: "JetBrains Mono"; font-size: 11px;
+    line-height: 1.7;
+    will-change: transform;
+  }
+
+  .log-line { display: flex; gap: 10px; white-space: nowrap; }
+  .log-line .ts { color: var(--fg-faint); }
+  .log-line .tag { color: var(--phos-2); }
+  .log-line .tag.warn { color: var(--amber); }
+  .log-line .tag.err { color: var(--danger); }
+  .log-line .tag.ok { color: var(--phos); }
+  .log-line .msg { color: var(--fg-dim); }
+  .log-line .msg b { color: var(--fg); font-weight: 500; }
+
+  .code-line {
+    font-family: "JetBrains Mono"; font-size: 11px; line-height: 1.8;
+    color: var(--fg-dim); white-space: nowrap;
+  }
+  .code-line .kw { color: oklch(0.82 0.12 285); }
+  .code-line .fn { color: var(--phos); }
+  .code-line .str { color: var(--amber); }
+  .code-line .num { color: oklch(0.78 0.15 25); }
+  .code-line .cm { color: var(--fg-faint); font-style: italic; }
+  .code-line .ln { color: var(--fg-faint); display: inline-block; width: 24px; text-align: right; margin-right: 14px; }
+
+  /* ---------- LOGO SHOWCASE ---------- */
+  .logo-showcase {
+    padding: 80px 0 40px;
+    border-top: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    margin-top: 80px;
+    background: linear-gradient(180deg, transparent, rgba(120,255,180,0.015), transparent);
+  }
+  .logo-showcase-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr;
+    gap: 0;
+    border-left: 1px solid var(--line-2);
+  }
+  .logo-cell {
+    border-right: 1px solid var(--line-2);
+    padding: 56px 36px;
+    position: relative;
+    min-height: 280px;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .logo-cell-label {
+    position: absolute; top: 12px; left: 12px;
+    font-family: "JetBrains Mono"; font-size: 10px;
+    color: var(--fg-faint); letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .logo-cell-meta {
+    font-family: "JetBrains Mono"; font-size: 10px;
+    color: var(--fg-faint); letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 36px;
+  }
+  .logo-primary { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 20px; }
+  .logo-primary svg { width: 120px; height: 120px; filter: drop-shadow(0 0 20px var(--phos-glow)); }
+  .logo-primary .wm {
+    font-family: "Space Grotesk"; font-weight: 500;
+    font-size: 28px; letter-spacing: 0.28em;
+    color: var(--fg);
+  }
+  .logo-mono { display: flex; align-items: center; justify-content: center; }
+  .logo-mono svg { width: 100px; height: 100px; }
+  .logo-small-stack { display: flex; flex-direction: column; gap: 20px; justify-content: center; align-items: flex-start; }
+  .logo-small-stack .row { display: flex; align-items: center; gap: 14px; }
+  .logo-small-stack .row svg { width: 28px; height: 28px; filter: drop-shadow(0 0 6px var(--phos-glow)); }
+  .logo-small-stack .row span { font-family: "Space Grotesk"; letter-spacing: 0.24em; font-size: 14px; color: var(--fg); }
+  .logo-small-stack .row.sm svg { width: 20px; height: 20px; }
+  .logo-small-stack .row.sm span { font-size: 11px; }
+  .logo-small-stack .row.xs svg { width: 14px; height: 14px; }
+  .logo-small-stack .row.xs span { font-size: 9px; }
+
+  /* ---------- SECTION TEMPLATE ---------- */
+  section.block { padding: 120px 0; position: relative; }
+  .section-head {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 64px; gap: 40px;
+  }
+  .section-kicker {
+    font-family: "JetBrains Mono"; font-size: 11px;
+    letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--phos); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-kicker::before {
+    content: ""; display: block; width: 36px; height: 1px;
+    background: var(--phos); box-shadow: 0 0 8px var(--phos);
+  }
+  .section-title {
+    font-family: "Space Grotesk"; font-weight: 400;
+    font-size: clamp(32px, 3.6vw, 52px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0; max-width: 720px;
+    color: #eef3ef;
+  }
+  .section-title em { font-style: normal; color: var(--phos); font-family: "JetBrains Mono"; font-weight: 400; letter-spacing: -0.02em; }
+  .section-desc {
+    max-width: 380px; color: var(--fg-dim);
+    font-size: 15px; line-height: 1.6;
+  }
+
+  /* ---------- ARSENAL (features grid) ---------- */
+  .arsenal {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid var(--line-2);
+    border-left: 1px solid var(--line-2);
+  }
+  .arsenal-cell {
+    border-right: 1px solid var(--line-2);
+    border-bottom: 1px solid var(--line-2);
+    padding: 40px 32px;
+    position: relative;
+    min-height: 280px;
+    display: flex; flex-direction: column;
+    transition: background .2s;
+  }
+  .arsenal-cell:hover { background: color-mix(in oklab, var(--phos) 4%, transparent); }
+  .arsenal-cell .idx {
+    font-family: "JetBrains Mono"; font-size: 10px;
+    color: var(--fg-faint); letter-spacing: 0.14em;
+    margin-bottom: 24px;
+  }
+  .arsenal-cell .icon {
+    width: 44px; height: 44px; margin-bottom: 28px;
+    color: var(--phos);
+  }
+  .arsenal-cell h3 {
+    font-family: "Space Grotesk"; font-weight: 500;
+    font-size: 20px; letter-spacing: -0.01em;
+    margin: 0 0 12px; color: var(--fg);
+  }
+  .arsenal-cell p {
+    font-size: 14px; line-height: 1.6;
+    color: var(--fg-dim); margin: 0;
+    flex: 1;
+  }
+  .arsenal-cell .tag {
+    font-family: "JetBrains Mono"; font-size: 10px;
+    color: var(--phos); letter-spacing: 0.14em;
+    text-transform: uppercase;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px dashed var(--line);
+  }
+
+  /* ---------- DETECTION MATRIX ---------- */
+  .matrix {
+    background: linear-gradient(180deg, var(--bg-2), var(--bg));
+    border: 1px solid var(--line-2);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  .matrix-head {
+    display: grid;
+    grid-template-columns: 2fr repeat(5, 1fr) 1.2fr;
+    padding: 14px 24px;
+    border-bottom: 1px solid var(--line-2);
+    font-family: "JetBrains Mono"; font-size: 10px;
+    color: var(--fg-faint); letter-spacing: 0.14em;
+    text-transform: uppercase;
+    background: rgba(0,0,0,0.2);
+  }
+  .matrix-row {
+    display: grid;
+    grid-template-columns: 2fr repeat(5, 1fr) 1.2fr;
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--line-2);
+    align-items: center;
+    font-family: "JetBrains Mono"; font-size: 12px;
+    transition: background .15s;
+  }
+  .matrix-row:hover { background: color-mix(in oklab, var(--phos) 4%, transparent); }
+  .matrix-row:last-child { border-bottom: none; }
+  .matrix-row .name { color: var(--fg); font-family: "Space Grotesk"; font-size: 14px; letter-spacing: 0; }
+  .matrix-row .name small { display: block; font-family: "JetBrains Mono"; font-size: 10px; color: var(--fg-faint); letter-spacing: 0.1em; margin-top: 2px; }
+  .cell {
+    display: flex; align-items: center; gap: 8px;
+    color: var(--fg-dim); font-size: 11px;
+  }
+  .cell .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .cell.pass .dot { background: var(--phos); box-shadow: 0 0 6px var(--phos); }
+  .cell.pass { color: var(--phos); }
+  .cell.part .dot { background: var(--amber); }
+  .cell.part { color: var(--amber); }
+  .cell .pct { font-family: "JetBrains Mono"; }
+  .matrix-row .status {
+    font-family: "JetBrains Mono"; font-size: 10px;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    text-align: right; color: var(--phos);
+    display: inline-flex; justify-content: flex-end; align-items: center; gap: 8px;
+  }
+  .matrix-row .status::after {
+    content: "◆"; font-size: 8px;
+  }
+
+  /* ---------- PIPELINE ---------- */
+  .pipeline {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .pipe-step {
+    padding: 40px 28px;
+    border-left: 1px solid var(--line-2);
+    position: relative;
+    min-height: 260px;
+  }
+  .pipe-step:first-child { border-left: 1px solid var(--phos); }
+  .pipe-step::before {
+    content: "";
+    position: absolute; left: -5px; top: 40px;
+    width: 9px; height: 9px; border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--line-2);
+  }
+  .pipe-step:first-child::before {
+    background: var(--phos);
+    border-color: var(--phos);
+    box-shadow: 0 0 10px var(--phos);
+  }
+  .pipe-step .num {
+    font-family: "JetBrains Mono"; font-size: 10px;
+    color: var(--phos); letter-spacing: 0.2em;
+    margin-bottom: 28px;
+  }
+  .pipe-step h4 {
+    font-family: "Space Grotesk"; font-weight: 500;
+    font-size: 18px; letter-spacing: -0.01em;
+    margin: 0 0 12px; color: var(--fg);
+  }
+  .pipe-step p {
+    font-size: 13px; line-height: 1.6;
+    color: var(--fg-dim); margin: 0 0 20px;
+  }
+  .pipe-step .detail {
+    font-family: "JetBrains Mono"; font-size: 10px;
+    color: var(--fg-faint); letter-spacing: 0.06em;
+    line-height: 1.8;
+  }
+  .pipe-step .detail div::before { content: "› "; color: var(--phos); }
+
+  /* ---------- FOOTER CTA ---------- */
+  .final {
+    padding: 160px 0 120px;
+    text-align: center;
+    position: relative;
+  }
+  .final::before {
+    content: "";
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 40% 60% at 50% 50%, rgba(120,255,180,0.1), transparent 70%);
+    pointer-events: none;
+  }
+  .final-ghost {
+    width: 180px; height: 180px; margin: 0 auto 40px;
+    position: relative; z-index: 1;
+  }
+  .final-ghost svg { width: 100%; height: 100%; filter: drop-shadow(0 0 40px var(--phos-glow)); }
+  .final h2 {
+    font-family: "Space Grotesk"; font-weight: 400;
+    font-size: clamp(40px, 5vw, 72px);
+    line-height: 1; letter-spacing: -0.03em;
+    margin: 0 0 20px; color: #eef3ef; position: relative; z-index: 1;
+  }
+  .final h2 em { font-style: normal; color: var(--phos); font-family: "JetBrains Mono"; font-weight: 400; letter-spacing: -0.02em; }
+  .final p {
+    max-width: 520px; margin: 0 auto 40px;
+    color: var(--fg-dim); font-size: 16px; line-height: 1.55;
+    position: relative; z-index: 1;
+  }
+  .final .cta-row { justify-content: center; position: relative; z-index: 1; }
+
+  footer {
+    border-top: 1px solid var(--line-2);
+    padding: 40px 0;
+    font-family: "JetBrains Mono"; font-size: 11px;
+    color: var(--fg-faint); letter-spacing: 0.1em;
+  }
+  .foot { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px; }
+  .foot .legal { text-transform: uppercase; }
+  .foot .links { display: flex; gap: 28px; }
+  .foot .links a { color: var(--fg-dim); text-decoration: none; }
+  .foot .links a:hover { color: var(--phos); }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1024px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .viewport { aspect-ratio: 16/11; }
+    .arsenal { grid-template-columns: repeat(2, 1fr); }
+    .pipeline { grid-template-columns: repeat(2, 1fr); }
+    .logo-showcase-grid { grid-template-columns: 1fr; }
+    .logo-cell { border-bottom: 1px solid var(--line-2); }
+    .matrix-head, .matrix-row { grid-template-columns: 1.4fr 1fr 1fr 1fr 1.2fr; }
+    .matrix-head span:nth-child(5), .matrix-head span:nth-child(6),
+    .matrix-row > *:nth-child(5), .matrix-row > *:nth-child(6) { display: none; }
+    .section-head { flex-direction: column; align-items: flex-start; gap: 24px; }
+  }
+  @media (max-width: 720px) {
+    .container { padding: 0 20px; }
+    nav ul { display: none; }
+    .nav-inner { padding: 12px 20px; }
+    .brand .version { display: none; }
+    .nav-cta { padding: 8px 12px; font-size: 11px; }
+    .hero { padding: 120px 0 40px; }
+    h1.hero-title { font-size: 40px; }
+    .hero-sub { font-size: 15px; }
+    .hero-meta { flex-wrap: wrap; gap: 14px 20px; font-size: 10px; }
+    .cta-row { flex-direction: column; align-items: stretch; }
+    .cta-row .btn { justify-content: center; }
+    .viewport { aspect-ratio: 4/5; }
+    .arsenal { grid-template-columns: 1fr; }
+    .pipeline { grid-template-columns: 1fr; }
+    .pipe-step { min-height: 0; border-left: none; border-top: 1px solid var(--line-2); padding: 28px 0; }
+    .pipe-step:first-child { border-left: none; border-top: 1px solid var(--phos); }
+    .pipe-step::before { left: -4px; top: -4px; }
+    section.block { padding: 80px 0; }
+    .section-title { font-size: 30px; }
+    .matrix-head, .matrix-row { grid-template-columns: 1.4fr 1fr 1.2fr; padding: 14px 16px; font-size: 11px; }
+    .matrix-head span:nth-child(2), .matrix-head span:nth-child(3), .matrix-head span:nth-child(4),
+    .matrix-row > *:nth-child(2), .matrix-row > *:nth-child(3), .matrix-row > *:nth-child(4) { display: none; }
+    .matrix-row .name small { display: none; }
+    .logo-cell { padding: 48px 24px; min-height: 220px; }
+    .logo-primary svg { width: 96px; height: 96px; }
+    .logo-primary .wm { font-size: 22px; }
+    .final { padding: 100px 0 80px; }
+    .final-ghost { width: 120px; height: 120px; }
+    .final h2 { font-size: 38px; }
+    .foot { flex-direction: column; text-align: center; }
+  }
+
+  /* selection */
+  ::selection { background: var(--phos); color: #051006; }
+
+  /* ---------- SCROLL PROGRESS ---------- */
+  .scroll-progress {
+    position: fixed; top: 0; left: 0;
+    height: 2px; width: 0;
+    background: linear-gradient(90deg, var(--phos), var(--cyan));
+    box-shadow: 0 0 12px var(--phos-glow);
+    z-index: 60;
+    transition: width .08s linear;
+  }
+
+  /* ---------- REVEAL ON SCROLL ---------- */
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+  /* ---------- TWEAKS PANEL ---------- */
+  .tweaks {
+    position: fixed; right: 20px; bottom: 20px;
+    z-index: 100;
+    background: rgba(10,8,18,0.9);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 16px 18px;
+    min-width: 240px;
+    font-family: "JetBrains Mono"; font-size: 11px;
+    color: var(--fg);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px var(--phos-glow);
+    display: none;
+  }
+  .tweaks.open { display: block; }
+  .tweaks h4 { margin: 0 0 12px; font-family: "Space Grotesk"; font-weight: 500; font-size: 12px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--phos); display: flex; justify-content: space-between; align-items: center; }
+  .tweaks h4 button { background: transparent; border: none; color: var(--fg-faint); cursor: pointer; font-size: 14px; }
+  .tweaks h4 button:hover { color: var(--fg); }
+  .tweak-row { margin-bottom: 14px; }
+  .tweak-row:last-child { margin-bottom: 0; }
+  .tweak-row label { display: block; color: var(--fg-faint); letter-spacing: 0.14em; text-transform: uppercase; margin-bottom: 8px; font-size: 10px; }
+  .theme-opts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .theme-opt { padding: 8px 6px; border: 1px solid var(--line-2); border-radius: 3px; background: transparent; color: var(--fg-dim); font-family: inherit; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: all .15s; }
+  .theme-opt:hover { border-color: var(--phos); color: var(--fg); }
+  .theme-opt.active { border-color: var(--phos); color: var(--phos); background: color-mix(in oklab, var(--phos) 12%, transparent); box-shadow: 0 0 12px var(--phos-glow); }
+  .slider-wrap { display: flex; align-items: center; gap: 10px; }
+  .slider-wrap input[type=range] { flex: 1; accent-color: var(--phos); }
+  .slider-wrap span { color: var(--phos); min-width: 34px; text-align: right; }
+  .toggle-row { display: flex; justify-content: space-between; align-items: center; }
+  .toggle-row .sw { width: 32px; height: 18px; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 9px; position: relative; cursor: pointer; transition: all .2s; }
+  .toggle-row .sw::after { content: ""; position: absolute; top: 2px; left: 2px; width: 12px; height: 12px; border-radius: 50%; background: var(--fg-dim); transition: all .2s; }
+  .toggle-row .sw.on { background: color-mix(in oklab, var(--phos) 20%, transparent); border-color: var(--phos); }
+  .toggle-row .sw.on::after { left: 16px; background: var(--phos); box-shadow: 0 0 8px var(--phos); }
+
+  .tweaks-toggle {
+    position: fixed; right: 20px; bottom: 20px; z-index: 99;
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(10,8,18,0.9); backdrop-filter: blur(12px);
+    border: 1px solid var(--line);
+    color: var(--phos); cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5), 0 0 20px var(--phos-glow);
+    transition: transform .15s;
+  }
+  .tweaks-toggle:hover { transform: scale(1.08); }
+  .tweaks.open ~ .tweaks-toggle { display: none; }
+</style>
+</head>
+<body>
+
+<div class="scroll-progress" id="progress"></div>
+
+<!-- Tweaks panel -->
+<button class="tweaks-toggle" id="tweaksToggle" aria-label="Open tweaks">
+  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5">
+    <circle cx="10" cy="10" r="2.5"/>
+    <path d="M10 2v3M10 15v3M2 10h3M15 10h3M4.2 4.2l2.1 2.1M13.7 13.7l2.1 2.1M4.2 15.8l2.1-2.1M13.7 6.3l2.1-2.1"/>
+  </svg>
+</button>
+<div class="tweaks" id="tweaksPanel">
+  <h4>Tweaks <button id="closeTweaks" aria-label="Close">✕</button></h4>
+  <div class="tweak-row">
+    <label>Color mood</label>
+    <div class="theme-opts">
+      <button class="theme-opt" data-theme="void">Void</button>
+      <button class="theme-opt" data-theme="phosphor">Phos</button>
+      <button class="theme-opt" data-theme="ember">Ember</button>
+      <button class="theme-opt" data-theme="mono">Mono</button>
+    </div>
+  </div>
+  <div class="tweak-row">
+    <label>Stream speed</label>
+    <div class="slider-wrap">
+      <input type="range" id="speedSlider" min="0" max="200" value="40"/>
+      <span id="speedVal">0.4x</span>
+    </div>
+  </div>
+  <div class="tweak-row toggle-row">
+    <label style="margin:0;">Scanlines</label>
+    <div class="sw on" id="scanToggle"></div>
+  </div>
+  <div class="tweak-row toggle-row">
+    <label style="margin:0;">Grid bg</label>
+    <div class="sw on" id="gridToggle"></div>
+  </div>
+</div>
+
+<!-- Reusable Phantom logo symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- The Phantom ghost mark:
+         A rounded-top capsule with scalloped base and two void eye slits.
+         Geometric, original. -->
+    <symbol id="phantom-glyph" viewBox="0 0 64 64">
+      <!-- outer ring -->
+      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="1"/>
+      <!-- tick marks -->
+      <g stroke="currentColor" stroke-opacity="0.4" stroke-width="1">
+        <line x1="32" y1="2" x2="32" y2="6"/>
+        <line x1="32" y1="58" x2="32" y2="62"/>
+        <line x1="2" y1="32" x2="6" y2="32"/>
+        <line x1="58" y1="32" x2="62" y2="32"/>
+      </g>
+      <!-- ghost body: capsule top + scalloped bottom -->
+      <path d="
+        M 16 28
+        C 16 19, 23 14, 32 14
+        C 41 14, 48 19, 48 28
+        L 48 46
+        C 46 46, 45 44, 43.5 44
+        C 42 44, 41 46, 39 46
+        C 37 46, 36 44, 34.5 44
+        C 33 44, 32 46, 30 46
+        C 28 46, 27 44, 25.5 44
+        C 24 44, 23 46, 21 46
+        C 19 46, 18 44, 16 46
+        Z
+      " fill="currentColor"/>
+      <!-- void eyes (cut-through) -->
+      <ellipse cx="26" cy="28" rx="2.2" ry="3.2" fill="#000"/>
+      <ellipse cx="38" cy="28" rx="2.2" ry="3.2" fill="#000"/>
+      <!-- inner glow highlight -->
+      <ellipse cx="26" cy="26.5" rx="0.7" ry="1" fill="currentColor" opacity="0.9"/>
+      <ellipse cx="38" cy="26.5" rx="0.7" ry="1" fill="currentColor" opacity="0.9"/>
+    </symbol>
+    <symbol id="phantom-mono" viewBox="0 0 64 64">
+      <path d="
+        M 16 28
+        C 16 19, 23 14, 32 14
+        C 41 14, 48 19, 48 28
+        L 48 46
+        C 46 46, 45 44, 43.5 44
+        C 42 44, 41 46, 39 46
+        C 37 46, 36 44, 34.5 44
+        C 33 44, 32 46, 30 46
+        C 28 46, 27 44, 25.5 44
+        C 24 44, 23 46, 21 46
+        C 19 46, 18 44, 16 46
+        Z
+      " fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <ellipse cx="26" cy="28" rx="2.2" ry="3.2" fill="currentColor"/>
+      <ellipse cx="38" cy="28" rx="2.2" ry="3.2" fill="currentColor"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="grid-bg"></div>
+
+<nav>
+  <div class="nav-inner">
+    <a class="brand" href="#">
+      <span class="logo-mark"><svg style="color: var(--phos)"><use href="#phantom-glyph"/></svg></span>
+      <span class="wordmark">Phantom</span>
+      <span class="version">v0.9.4-rc</span>
+    </a>
+    <ul>
+      <li><a href="#arsenal">Arsenal</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#matrix">Matrix</a></li>
+      <li><a href="#download">Download</a></li>
+    </ul>
+    <a href="#download" class="nav-cta">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v8m0 0l3-3m-3 3L3 6m-2 4h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      Download build
+    </a>
+  </div>
+</nav>
+
+<main>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Offline Evasion Laboratory · v0.9.4</div>
+        <h1 class="hero-title">
+          The payload that was <span class="strike">detected</span><br>
+          <em>never there.</em>
+        </h1>
+        <p class="hero-sub">
+          Drop a binary, shellcode, or DLL into Phantom. It spins up realistic sandboxes, hammers your payload against modern EDRs, and an on-device mutation engine polymorphs it until every detection ghosts. Fully offline. Zero telemetry.
+        </p>
+        <div class="cta-row">
+          <a href="#download" class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9m0 0l3.5-3.5M7 10L3.5 6.5M1 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+            Download build 0.9.4
+          </a>
+          <a href="#pipeline" class="btn btn-ghost">
+            See the pipeline
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+        </div>
+        <div class="hero-meta">
+          <span>Air-gapped</span>
+          <span>Local inference</span>
+          <span>Mac · Win</span>
+          <span>Signed builds</span>
+        </div>
+      </div>
+
+      <!-- Right: scrolling viewport -->
+      <div class="viewport">
+        <div class="vp-chrome">
+          <div class="vp-dots"><i></i><i></i><i></i></div>
+          <div class="vp-title"><b>phantom</b> › session // <b id="sid">A3F9-7C21</b></div>
+          <div class="vp-rec">LIVE</div>
+        </div>
+        <div class="vp-body">
+          <div class="vp-panel">
+            <div class="vp-panel-head"><span>Sandbox telemetry</span><b>stream · <span id="lc">0421</span></b></div>
+            <div class="scroll-track" id="log-track"></div>
+          </div>
+          <div class="vp-panel">
+            <div class="vp-panel-head"><span>Mutation engine</span><b>gen · <span id="gc">17</span></b></div>
+            <div class="scroll-track" id="code-track"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== LOGO SHOWCASE ========== -->
+<section class="logo-showcase">
+  <div class="container">
+    <div class="logo-showcase-grid">
+      <div class="logo-cell logo-primary">
+        <span class="logo-cell-label">Primary lockup</span>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:24px;">
+          <svg viewBox="0 0 64 64" style="color: var(--phos)"><use href="#phantom-glyph"/></svg>
+          <div class="wm">PHANTOM</div>
+        </div>
+        <span class="logo-cell-meta">Mark + wordmark · Space Grotesk</span>
+      </div>
+      <div class="logo-cell logo-mono">
+        <span class="logo-cell-label">Outline variant</span>
+        <svg viewBox="0 0 64 64" style="color: var(--fg)"><use href="#phantom-mono"/></svg>
+        <span class="logo-cell-meta">For dark-on-light print</span>
+      </div>
+      <div class="logo-cell">
+        <span class="logo-cell-label">Responsive scale</span>
+        <div class="logo-small-stack">
+          <div class="row">
+            <svg viewBox="0 0 64 64" style="color: var(--phos)"><use href="#phantom-glyph"/></svg>
+            <span>PHANTOM</span>
+          </div>
+          <div class="row sm">
+            <svg viewBox="0 0 64 64" style="color: var(--phos)"><use href="#phantom-glyph"/></svg>
+            <span>PHANTOM</span>
+          </div>
+          <div class="row xs">
+            <svg viewBox="0 0 64 64" style="color: var(--phos)"><use href="#phantom-glyph"/></svg>
+            <span>PHANTOM</span>
+          </div>
+        </div>
+        <span class="logo-cell-meta">16 → 96 px · optical minimum 14 px</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ARSENAL ========== -->
+<section class="block" id="arsenal">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">01 · Arsenal</div>
+        <h2 class="section-title">A lab bench that <em>thinks like a defender.</em></h2>
+      </div>
+      <p class="section-desc">Every module runs locally — no cloud analysis, no uploads, no phoning home. Phantom is a self-contained toolchain built from the EDR operator's perspective.</p>
+    </div>
+    <div class="arsenal">
+      <div class="arsenal-cell">
+        <div class="idx">M.01</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="4" y="8" width="36" height="28" rx="1"/>
+          <path d="M4 14h36M10 22l4 4-4 4M18 30h10"/>
+        </svg>
+        <h3>Shadow sandboxes</h3>
+        <p>Realistic Windows 10/11 and macOS kernel profiles, spun up in seconds. Hardware spoofing, user entropy, scheduled tasks, and fake browser history mimic a breathing workstation.</p>
+        <div class="tag">12 profiles · hyperv · qemu</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.02</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="22" cy="22" r="16"/>
+          <circle cx="22" cy="22" r="10"/>
+          <circle cx="22" cy="22" r="3" fill="currentColor"/>
+          <path d="M22 2v4M22 38v4M2 22h4M38 22h4"/>
+        </svg>
+        <h3>Detection matrix</h3>
+        <p>Batteries-included offline rulesets for Defender MpEngine, Elastic, Sigma, Yara, and behavioral heuristics. Swap in your own SIEM rules for a private evaluation loop.</p>
+        <div class="tag">7 engines · yara · sigma · capa</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.03</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M22 4l16 9v18l-16 9L6 31V13z"/>
+          <path d="M22 4v40M6 13l32 18M38 13L6 31"/>
+        </svg>
+        <h3>Polymorph engine</h3>
+        <p>On-device LLM + deterministic passes: syscall obfuscation, IAT hiding, control-flow flattening, string encryption, sleep masking, and anti-emulation checks applied iteratively.</p>
+        <div class="tag">Local 7B · no upload</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.04</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M8 12h28v24H8z"/>
+          <path d="M14 20h16M14 26h10M14 32h16"/>
+          <circle cx="36" cy="12" r="4" fill="currentColor"/>
+        </svg>
+        <h3>Telemetry hush</h3>
+        <p>Zero network I/O by design. All models, signature DBs, and VM images ship on disk. Phantom runs in a Faraday cage if you want.</p>
+        <div class="tag">Air-gapped · verifiable</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.05</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="6" y="6" width="14" height="14"/>
+          <rect x="24" y="6" width="14" height="14"/>
+          <rect x="6" y="24" width="14" height="14"/>
+          <rect x="24" y="24" width="14" height="14"/>
+          <path d="M13 13l18 18M31 13L13 31"/>
+        </svg>
+        <h3>Diff-view analyzer</h3>
+        <p>Side-by-side structural diffs between payload generations. See exactly which mutation tipped the scale — byte, section, and syscall attribution.</p>
+        <div class="tag">Time-travel debug</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.06</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M22 4v14M22 26v14M4 22h14M26 22h14"/>
+          <circle cx="22" cy="22" r="5"/>
+        </svg>
+        <h3>Ethics gate</h3>
+        <p>Hardware-token authorization, signed engagement manifest, and authorized-target binding. Phantom refuses to mutate without a scoped auth file.</p>
+        <div class="tag">Rules of engagement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PIPELINE ========== -->
+<section class="block" id="pipeline" style="border-top:1px solid var(--line-2);">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">02 · Pipeline</div>
+        <h2 class="section-title">From binary to <em>ghost</em> in four passes.</h2>
+      </div>
+      <p class="section-desc">Phantom's default pipeline. Every step is inspectable, reversible, and deterministic — re-run the exact same session from a signed manifest.</p>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="num">STEP 01</div>
+        <h4>Intake</h4>
+        <p>Drop a PE, Mach-O, shellcode, or DLL. Phantom fingerprints the binary, maps its IAT, and generates a behavioral baseline.</p>
+        <div class="detail">
+          <div>sha256 · imphash</div>
+          <div>entropy profile</div>
+          <div>iat / syscall map</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">STEP 02</div>
+        <h4>Range check</h4>
+        <p>Binary runs against the full sandbox matrix. Each defender returns a verdict with confidence, triggered rules, and the exact memory region flagged.</p>
+        <div class="detail">
+          <div>12 sandboxes parallel</div>
+          <div>edr + av + static</div>
+          <div>flagged offset heatmap</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">STEP 03</div>
+        <h4>Mutate</h4>
+        <p>Local model proposes targeted patches. Deterministic passes rewrite syscalls, encrypt strings, flatten control flow, and mask sleeps. Generation signed.</p>
+        <div class="detail">
+          <div>llm + rule-based</div>
+          <div>42 transforms available</div>
+          <div>reversible journal</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">STEP 04</div>
+        <h4>Ghost</h4>
+        <p>Re-run the matrix. Continue until all targets return clean. Export the final artifact with a full provenance manifest for your report.</p>
+        <div class="detail">
+          <div>avg 14 generations</div>
+          <div>clean attestation</div>
+          <div>engagement-bound</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MATRIX ========== -->
+<section class="block" id="matrix" style="border-top:1px solid var(--line-2);">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">03 · Detection matrix</div>
+        <h2 class="section-title">Tested against <em>what hunts you.</em></h2>
+      </div>
+      <p class="section-desc">Phantom ships offline signature snapshots. Results below are from the default engagement profile across generations 0–15.</p>
+    </div>
+    <div class="matrix">
+      <div class="matrix-head">
+        <span>Target engine</span>
+        <span>Static</span>
+        <span>Heuristic</span>
+        <span>Behavior</span>
+        <span>Kernel</span>
+        <span>Memory</span>
+        <span>Outcome</span>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Vendor Alpha EDR <small>// enterprise-grade agent</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.03</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.02</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Vendor Beta NGAV <small>// behavioral + cloud</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Vendor Gamma XDR <small>// cross-layer detection</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.01</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Default OS Defender <small>// built-in protection</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Open source YARA <small>// community rules</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell part"><span class="dot"></span><span class="pct">0.06</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+    </div>
+    <p style="font-family:'JetBrains Mono';font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;margin-top:20px;text-align:right;">
+      ⟶ Vendor names redacted. Engagement-bound evaluations only. Never use against unauthorized targets.
+    </p>
+  </div>
+</section>
+
+<!-- ========== PRODUCTS TEASER ========== -->
+<section class="block" id="products-teaser" style="border-top:1px solid var(--line-2);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-kicker">04 · The Phantom family</div>
+        <h2 class="section-title">Six builds under <em>one banner.</em></h2>
+      </div>
+      <p class="section-desc">Phantom is the lab. Veil is the bypass engine. Spoof rotates identities. Stress measures resilience. Bot, RL, and Services round out the catalog.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:0;border-left:1px solid var(--line-2);border-top:1px solid var(--line-2);">
+      <a href="products.html" style="padding:28px 20px;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;transition:background .2s;" onmouseover="this.style.background='color-mix(in oklab,var(--phos) 6%,transparent)'" onmouseout="this.style.background=''">
+        <div style="font-family:'JetBrains Mono';font-size:10px;color:var(--fg-faint);letter-spacing:0.14em;">P.01</div>
+        <div style="color:var(--phos);font-family:'Space Grotesk';font-size:18px;letter-spacing:-0.01em;">PhantomVeil</div>
+        <div style="color:var(--fg-dim);font-size:12px;line-height:1.55;">Flagship bypass engine. 42 transforms.</div>
+      </a>
+      <a href="products.html" style="padding:28px 20px;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;" onmouseover="this.style.background='color-mix(in oklab,var(--phos) 6%,transparent)'" onmouseout="this.style.background=''">
+        <div style="font-family:'JetBrains Mono';font-size:10px;color:var(--fg-faint);letter-spacing:0.14em;">P.02</div>
+        <div style="color:var(--fg);font-family:'Space Grotesk';font-size:18px;letter-spacing:-0.01em;">PhantomSpoof</div>
+        <div style="color:var(--fg-dim);font-size:12px;line-height:1.55;">HWID rotation. Kernel-level.</div>
+      </a>
+      <a href="products.html" style="padding:28px 20px;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;" onmouseover="this.style.background='color-mix(in oklab,var(--phos) 6%,transparent)'" onmouseout="this.style.background=''">
+        <div style="font-family:'JetBrains Mono';font-size:10px;color:var(--fg-faint);letter-spacing:0.14em;">P.03</div>
+        <div style="color:var(--fg);font-family:'Space Grotesk';font-size:18px;letter-spacing:-0.01em;">PhantomStress</div>
+        <div style="color:var(--fg-dim);font-size:12px;line-height:1.55;">Authorized load + resilience.</div>
+      </a>
+      <a href="products.html" style="padding:28px 20px;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;" onmouseover="this.style.background='color-mix(in oklab,var(--phos) 6%,transparent)'" onmouseout="this.style.background=''">
+        <div style="font-family:'JetBrains Mono';font-size:10px;color:var(--fg-faint);letter-spacing:0.14em;">P.04</div>
+        <div style="color:var(--fg);font-family:'Space Grotesk';font-size:18px;letter-spacing:-0.01em;">PhantomBot</div>
+        <div style="color:var(--fg-dim);font-size:12px;line-height:1.55;">Discord bot. 40+ modules.</div>
+      </a>
+      <a href="products.html" style="padding:28px 20px;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;" onmouseover="this.style.background='color-mix(in oklab,var(--phos) 6%,transparent)'" onmouseout="this.style.background=''">
+        <div style="font-family:'JetBrains Mono';font-size:10px;color:var(--fg-faint);letter-spacing:0.14em;">P.05</div>
+        <div style="color:var(--fg);font-family:'Space Grotesk';font-size:18px;letter-spacing:-0.01em;">PhantomRL</div>
+        <div style="color:var(--fg-dim);font-size:12px;line-height:1.55;">Rocket League AI coach.</div>
+      </a>
+      <a href="products.html" style="padding:28px 20px;border-right:1px solid var(--line-2);border-bottom:1px solid var(--line-2);text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:14px;" onmouseover="this.style.background='color-mix(in oklab,var(--phos) 6%,transparent)'" onmouseout="this.style.background=''">
+        <div style="font-family:'JetBrains Mono';font-size:10px;color:var(--fg-faint);letter-spacing:0.14em;">P.06</div>
+        <div style="color:var(--fg);font-family:'Space Grotesk';font-size:18px;letter-spacing:-0.01em;">PhantomServices</div>
+        <div style="color:var(--fg-dim);font-size:12px;line-height:1.55;">Operator-grade contract work.</div>
+      </a>
+    </div>
+    <div style="margin-top:32px;display:flex;justify-content:flex-end;">
+      <a href="products.html" class="btn btn-ghost">
+        Browse the full catalog
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FINAL ========== -->
+<section class="block final" id="download" style="border-top:1px solid var(--line-2);">
+  <div class="container">
+    <div class="final-ghost">
+      <svg viewBox="0 0 64 64" style="color: var(--phos)"><use href="#phantom-glyph"/></svg>
+    </div>
+    <h2>Leave nothing. <br><em>Not even a log.</em></h2>
+    <p>Phantom is distributed as a signed DMG / MSI. Authorized-engagement file required to unlock the mutation engine. Public build available for researchers.</p>
+    <div class="cta-row">
+      <a href="#" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9m0 0l3.5-3.5M7 10L3.5 6.5M1 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+        Download for Mac
+      </a>
+      <a href="#" class="btn btn-ghost">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9m0 0l3.5-3.5M7 10L3.5 6.5M1 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+        Download for Windows
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div class="legal">Phantom · Ethical use only · Engagement-bound</div>
+    <div class="links">
+      <a href="products.html">Products</a>
+      <a href="#">Docs</a>
+      <a href="#">Ethics policy</a>
+      <a href="#">PGP</a>
+    </div>
+    <div class="legal">v0.9.4-rc · build a3f9</div>
+  </div>
+</footer>
+
+</main>
+
+<script>
+// ============ Scrolling "video" effect ============
+// Two infinite-scrolling log panels with rotating content.
+
+const logSamples = [
+  ['12:47:03.441','init','loaded', 'sandbox profile <b>win11-enterprise</b>'],
+  ['12:47:03.512','hv','spawn', 'hyperv instance <b>A3F9.sbx.02</b>'],
+  ['12:47:03.619','edr','attach', 'agent alpha · sensor version 7.31.4'],
+  ['12:47:04.023','intake','hash', 'sha256 <b>9f2c..7ab3</b>'],
+  ['12:47:04.102','iat','map', '42 imports · 7 suspicious'],
+  ['12:47:04.341','fire','exec', 'payload dropped · entry 0x401000'],
+  ['12:47:04.488','detect','warn', 'static match: <b>MpEngine.Trojan.A</b>'],
+  ['12:47:04.612','mutate','queue', 'gen 01 · 4 transforms'],
+  ['12:47:04.907','mutate','apply', 'syscall indirection <b>NtCreateThreadEx</b>'],
+  ['12:47:05.131','mutate','apply', 'string encryption <b>rc4/xor</b>'],
+  ['12:47:05.402','mutate','apply', 'control flow flattening'],
+  ['12:47:05.710','rerun','exec', 'gen 01 · sandbox win11-enterprise'],
+  ['12:47:06.221','detect','ok', 'no match · static clean'],
+  ['12:47:06.402','detect','warn', 'behavior: sleep-skip anomaly'],
+  ['12:47:06.551','mutate','queue', 'gen 02 · sleep masking'],
+  ['12:47:06.814','mutate','apply', 'api hammering · timer decoy'],
+  ['12:47:07.104','rerun','exec', 'gen 02'],
+  ['12:47:07.612','detect','ok', 'behavior clean · 0.00'],
+  ['12:47:07.803','detect','ok', 'kernel clean · 0.00'],
+  ['12:47:07.998','phantom','ok', '<b>ghosted · generation 02</b>'],
+  ['12:47:08.223','export','write', 'artifact <b>payload.ghost.a3f9.exe</b>'],
+  ['12:47:08.401','manifest','sign', 'ed25519 · operator key'],
+];
+
+const codeSamples = [
+  ['01','<span class="cm">// gen.17 — syscall indirection</span>'],
+  ['02','<span class="kw">fn</span> <span class="fn">obfuscate_iat</span>(pe: &<span class="kw">mut</span> PE) {'],
+  ['03','  <span class="kw">let</span> seed = <span class="num">0xA3F97C21</span>;'],
+  ['04','  <span class="kw">for</span> imp <span class="kw">in</span> pe.imports_mut() {'],
+  ['05','    imp.hash_name(seed);'],
+  ['06','    imp.redirect(<span class="str">"ntdll.Nt*"</span>);'],
+  ['07','  }'],
+  ['08','}'],
+  ['09',''],
+  ['10','<span class="cm">// apply control-flow flattening</span>'],
+  ['11','<span class="kw">fn</span> <span class="fn">flatten_cfg</span>(blocks: Vec&lt;Block&gt;) {'],
+  ['12','  <span class="kw">let</span> dispatch = Block::<span class="fn">new_switch</span>();'],
+  ['13','  <span class="kw">for</span> (i, b) <span class="kw">in</span> blocks.iter().enumerate() {'],
+  ['14','    dispatch.<span class="fn">route</span>(i <span class="kw">as</span> u32, b);'],
+  ['15','  }'],
+  ['16','}'],
+  ['17',''],
+  ['18','<span class="cm">// mask sleeps with waitable timers</span>'],
+  ['19','<span class="kw">async fn</span> <span class="fn">mask_sleep</span>(ms: u64) {'],
+  ['20','  NtDelayExecution(<span class="fn">jitter</span>(ms)).<span class="fn">await</span>;'],
+  ['21','}'],
+  ['22',''],
+  ['23','<span class="cm">// string encryption w/ per-build key</span>'],
+  ['24','<span class="kw">fn</span> <span class="fn">enc_strings</span>(bin: &<span class="kw">mut</span> Binary) {'],
+  ['25','  <span class="kw">let</span> key = Key::<span class="fn">derive</span>(<span class="str">"phantom.a3f9"</span>);'],
+  ['26','  bin.<span class="fn">encrypt_section</span>(<span class="str">".rdata"</span>, key);'],
+  ['27','}'],
+  ['28',''],
+  ['29','<span class="cm">// verdict loop</span>'],
+  ['30','<span class="kw">loop</span> {'],
+  ['31','  <span class="kw">let</span> v = run_matrix(&payload).<span class="fn">await</span>;'],
+  ['32','  <span class="kw">if</span> v.<span class="fn">all_clean</span>() { <span class="kw">break</span>; }'],
+  ['33','  payload = mutator.<span class="fn">propose</span>(v).<span class="fn">await</span>;'],
+  ['34','}'],
+];
+
+function buildLogLine([ts, tag, kind, msg]) {
+  const kindClass = {warn:'warn',err:'err',ok:'ok',fire:'err',detect:(kind==='warn'?'warn':kind==='ok'?'ok':''), phantom:'ok', export:'ok', manifest:'ok'}[tag] || '';
+  const tagHTML = `<span class="tag ${kindClass}">${tag.padEnd(8,' ').slice(0,8)}</span>`;
+  const kindHTML = `<span class="tag ${kindClass}">${(kind||'').padEnd(6,' ').slice(0,6)}</span>`;
+  return `<div class="log-line"><span class="ts">${ts}</span>${tagHTML}${kindHTML}<span class="msg">${msg}</span></div>`;
+}
+
+function buildCodeLine([ln, html]) {
+  return `<div class="code-line"><span class="ln">${ln}</span>${html}</div>`;
+}
+
+function seedTrack(el, items, builder, copies=4) {
+  // Triple up content so scroll looks endless
+  let html = '';
+  for (let i=0;i<copies;i++) html += items.map(builder).join('');
+  el.innerHTML = html;
+}
+
+const logTrack = document.getElementById('log-track');
+const codeTrack = document.getElementById('code-track');
+seedTrack(logTrack, logSamples, buildLogLine, 6);
+seedTrack(codeTrack, codeSamples, buildCodeLine, 6);
+
+let logY = 0, codeY = 0;
+let logSpeed = 0.35, codeSpeed = 0.22;
+let lastTs = performance.now();
+function tick(ts) {
+  const dt = Math.min(50, ts - lastTs); lastTs = ts;
+  logY += logSpeed * dt;
+  codeY += codeSpeed * dt;
+  // reset at half height for seamless loop
+  const logH = logTrack.scrollHeight / 2;
+  const codeH = codeTrack.scrollHeight / 2;
+  if (logY > logH) logY -= logH;
+  if (codeY > codeH) codeY -= codeH;
+  logTrack.style.transform = `translateY(${-logY}px)`;
+  codeTrack.style.transform = `translateY(${-codeY}px)`;
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+// Occasionally jitter counters for "live" feel
+const sid = document.getElementById('sid');
+const lc  = document.getElementById('lc');
+const gc  = document.getElementById('gc');
+setInterval(() => {
+  const rand = () => Math.floor(Math.random()*16).toString(16).toUpperCase();
+  sid.textContent = `${rand()}${rand()}${rand()}${rand()}-${rand()}${rand()}${rand()}${rand()}`;
+}, 4200);
+let logCount = 421, genCount = 17;
+setInterval(() => { logCount += Math.floor(Math.random()*3)+1; lc.textContent = String(logCount).padStart(4,'0'); }, 320);
+setInterval(() => { genCount += 1; gc.textContent = genCount; }, 6000);
+
+// ============ Scroll progress + parallax + speed boost ============
+const gridBg = document.querySelector('.grid-bg');
+const progress = document.getElementById('progress');
+let userSpeedMult = 0.4;
+
+// Lenis-style smooth-scroll wheel augmenter: we already use CSS smooth-scroll
+// for anchors; for wheel we add easing to momentum.
+let targetY = window.scrollY, currentY = window.scrollY;
+let smoothOn = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function onScroll() {
+  const y = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (max > 0 ? (y/max)*100 : 0) + '%';
+  gridBg.style.backgroundPosition = `0 ${-y*0.3}px, 0 ${-y*0.3}px`;
+  const boost = Math.min(2.5, 1 + y / 500) * userSpeedMult;
+  logSpeed = 0.35 * boost;
+  codeSpeed = 0.22 * boost;
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+// ============ Reveal on scroll ============
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold: 0.12});
+revealEls.forEach(el => io.observe(el));
+
+// ============ Tweaks panel ============
+const panel = document.getElementById('tweaksPanel');
+const tBtn = document.getElementById('tweaksToggle');
+const closeBtn = document.getElementById('closeTweaks');
+tBtn.addEventListener('click', () => { panel.classList.add('open'); tBtn.style.display='none'; });
+closeBtn.addEventListener('click', () => { panel.classList.remove('open'); tBtn.style.display='flex'; });
+
+const savedTheme = localStorage.getItem('phantom-theme') || 'ember';
+function setTheme(t) {
+  if (t === 'void') document.documentElement.removeAttribute('data-theme');
+  else document.documentElement.setAttribute('data-theme', t);
+  document.querySelectorAll('.theme-opt').forEach(b => b.classList.toggle('active', b.dataset.theme===t));
+  localStorage.setItem('phantom-theme', t);
+}
+document.querySelectorAll('.theme-opt').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.theme)));
+setTheme(savedTheme);
+
+const speedSlider = document.getElementById('speedSlider');
+const speedVal = document.getElementById('speedVal');
+speedSlider.addEventListener('input', () => {
+  userSpeedMult = speedSlider.value / 100;
+  speedVal.textContent = userSpeedMult.toFixed(1) + 'x';
+  onScroll();
+});
+
+const scanToggle = document.getElementById('scanToggle');
+scanToggle.addEventListener('click', () => {
+  scanToggle.classList.toggle('on');
+  document.body.style.setProperty('--show-scan', scanToggle.classList.contains('on') ? '1' : '0');
+  document.querySelector('style').sheet; // noop
+  const has = scanToggle.classList.contains('on');
+  document.body.dataset.scan = has ? 'on' : 'off';
+});
+// CSS hook for scanlines toggle
+const styleHook = document.createElement('style');
+styleHook.textContent = `body[data-scan="off"]::after { display: none !important; }`;
+document.head.appendChild(styleHook);
+
+const gridToggle = document.getElementById('gridToggle');
+gridToggle.addEventListener('click', () => {
+  gridToggle.classList.toggle('on');
+  gridBg.style.display = gridToggle.classList.contains('on') ? '' : 'none';
+});
+
+</script>
+
+</body>
+</html>
