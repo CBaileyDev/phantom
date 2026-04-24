@@ -1,262 +1,25 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="synth" data-bg="topo" data-default-theme="synth" data-default-bg="topo">
 <head>
 <meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Phantom — Products</title>
+<meta name="description" content="Phantom product catalog — authorized testing tools, automation utilities, and services for scoped operator workflows.">
+<meta property="og:title" content="Phantom">
+<meta property="og:description" content="Authorized security lab and product catalog for scoped testing workflows.">
+<meta property="og:image" content="https://cbaileydev.github.io/phantom/assets/og-image.png">
+<meta property="og:url" content="https://cbaileydev.github.io/phantom/products.html">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Phantom">
+<meta name="twitter:description" content="Authorized security lab and product catalog for scoped testing workflows.">
+<meta name="twitter:image" content="https://cbaileydev.github.io/phantom/assets/og-image.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0706; --bg-2: #110b09; --bg-3: #181110;
-    --line: rgba(255, 160, 100, 0.09);
-    --line-2: rgba(255,255,255,0.05);
-    --fg: #f0e4d8; --fg-dim: #9a8677; --fg-faint: #554236;
-    --phos: oklch(0.78 0.18 55);
-    --phos-2: oklch(0.66 0.2 45);
-    --phos-glow: oklch(0.78 0.18 55 / 0.42);
-    --cyan: oklch(0.82 0.14 55);
-    --amber: oklch(0.82 0.16 75);
-    --grid-tint: rgba(255,160,100,0.035);
-    --halo-1: rgba(255, 160, 100, 0.13);
-    --halo-2: rgba(255, 60, 60, 0.06);
-    --btn-fg: #1a0d05;
-  }
-  :root[data-theme="void"]    { --bg:#07060d;--bg-2:#0b0a14;--bg-3:#11101c;--line:rgba(180,140,255,.09);--fg:#e4def0;--fg-dim:#8a83a3;--fg-faint:#433d5c;--phos:oklch(0.78 0.2 295);--phos-2:oklch(0.66 0.22 295);--phos-glow:oklch(0.78 0.2 295 / 0.4);--cyan:oklch(0.86 0.14 210);--grid-tint:rgba(180,140,255,.04);--halo-1:rgba(160,110,255,.14);--halo-2:rgba(255,60,140,.07);--btn-fg:#0a0510;}
-  :root[data-theme="phosphor"]{ --bg:#07090a;--bg-2:#0b0f10;--bg-3:#10161a;--line:rgba(120,255,180,.09);--fg:#d8e4dc;--fg-dim:#7a8982;--fg-faint:#3d4944;--phos:oklch(0.86 0.18 155);--phos-2:oklch(0.7 0.2 155);--phos-glow:oklch(0.86 0.18 155 / 0.35);--cyan:oklch(0.82 0.14 195);--grid-tint:rgba(120,255,180,.035);--halo-1:rgba(120,255,180,.12);--halo-2:rgba(255,80,200,.06);--btn-fg:#051006;}
-  :root[data-theme="mono"]    { --bg:#070708;--bg-2:#0c0c0e;--bg-3:#131316;--line:rgba(255,255,255,.08);--fg:#eaeaee;--fg-dim:#878791;--fg-faint:#3d3d46;--phos:oklch(0.96 0.01 270);--phos-2:oklch(0.85 0.01 270);--phos-glow:oklch(0.96 0.01 270 / 0.25);--cyan:oklch(0.75 0.01 270);--grid-tint:rgba(255,255,255,.03);--halo-1:rgba(255,255,255,.08);--halo-2:rgba(255,255,255,.03);--btn-fg:#0a0a0c;}
-  html { scroll-behavior: smooth; }
-  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-  * { box-sizing: border-box; }
-  html, body { margin: 0; padding: 0; background: var(--bg); color: var(--fg); font-family: "Space Grotesk", system-ui, sans-serif; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-  body.lock { overflow: hidden; }
-  body::before { content:""; position:fixed; inset:0; background:radial-gradient(ellipse 80% 50% at 50% -10%, var(--halo-1), transparent 60%),radial-gradient(ellipse 60% 40% at 90% 110%, var(--halo-2), transparent 60%); pointer-events:none; z-index:0; }
-  body::after { content:""; position:fixed; inset:0; background-image: repeating-linear-gradient(to bottom, rgba(255,255,255,0.015) 0 1px, transparent 1px 3px); pointer-events:none; z-index:2; mix-blend-mode:overlay; }
-  .grid-bg { position:fixed; inset:0; background-image: linear-gradient(to right, var(--grid-tint) 1px, transparent 1px), linear-gradient(to bottom, var(--grid-tint) 1px, transparent 1px); background-size: 56px 56px; mask-image: radial-gradient(ellipse 80% 60% at 50% 30%, black, transparent 80%); z-index:1; pointer-events:none; }
-  main { position: relative; z-index: 3; }
-  .container { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
-  ::selection { background: var(--phos); color: var(--btn-fg); }
-
-  /* NAV */
-  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 50; backdrop-filter: blur(12px); background: color-mix(in oklab, var(--bg) 70%, transparent); border-bottom: 1px solid var(--line-2); }
-  .nav-inner { max-width: 1320px; margin: 0 auto; display:flex; align-items:center; justify-content:space-between; padding: 14px 32px; }
-  .brand { display:flex; align-items:center; gap:10px; text-decoration:none; color: var(--fg); }
-  .brand .wordmark { font-family:"Space Grotesk"; font-weight:500; letter-spacing:.22em; font-size:14px; text-transform:uppercase; }
-  .brand .version { font-family:"JetBrains Mono"; font-size:10px; color:var(--fg-faint); padding:2px 6px; border:1px solid var(--line-2); border-radius:2px; margin-left:6px; }
-  .logo-mark { width:28px; height:28px; }
-  .logo-mark svg { width:100%; height:100%; filter: drop-shadow(0 0 6px var(--phos-glow)); }
-  nav ul { list-style:none; display:flex; gap:34px; margin:0; padding:0; }
-  nav ul a { color:var(--fg-dim); text-decoration:none; font-family:"JetBrains Mono"; font-size:12px; letter-spacing:.06em; transition:color .15s; }
-  nav ul a:hover, nav ul a.active { color: var(--phos); }
-  .nav-cta { display:inline-flex; align-items:center; gap:8px; font-family:"JetBrains Mono"; font-size:12px; background:var(--phos); color:var(--btn-fg); padding:9px 16px; border-radius:2px; border:1px solid var(--phos); text-decoration:none; font-weight:600; letter-spacing:.04em; box-shadow:0 0 24px var(--phos-glow); transition:all .15s; }
-  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 0 32px var(--phos-glow); }
-  .menu-btn { display:none; background:transparent; border:1px solid var(--line-2); color:var(--fg); padding:8px; border-radius:2px; cursor:pointer; }
-
-  .scroll-progress { position:fixed; top:0; left:0; height:2px; width:0; background: linear-gradient(90deg, var(--phos), var(--cyan)); box-shadow: 0 0 12px var(--phos-glow); z-index: 60; transition: width .08s linear; }
-
-  /* PAGE HEAD */
-  .page-head { padding: 150px 0 60px; }
-  .eyebrow { font-family:"JetBrains Mono"; font-size:11px; letter-spacing:.22em; text-transform:uppercase; color:var(--phos); display:inline-flex; align-items:center; gap:10px; margin-bottom: 24px; }
-  .eyebrow::before { content:""; width:6px; height:6px; background:var(--phos); border-radius:50%; box-shadow:0 0 10px var(--phos); animation: pulse 1.6s infinite; }
-  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.8)} }
-  .page-head h1 { font-family:"Space Grotesk"; font-weight:400; font-size: clamp(38px, 5vw, 72px); line-height: 1; letter-spacing: -0.03em; margin: 0 0 20px; max-width: 860px; }
-  .page-head h1 em { font-style: normal; color: var(--phos); font-family:"JetBrains Mono"; font-weight: 400; letter-spacing: -0.02em; }
-  .page-head p { max-width: 640px; color: var(--fg-dim); font-size: 16px; line-height: 1.55; margin: 0; }
-  .filters { display:flex; gap:10px; flex-wrap:wrap; margin: 40px 0 60px; padding-bottom: 24px; border-bottom: 1px solid var(--line-2); }
-  .chip { font-family:"JetBrains Mono"; font-size:11px; letter-spacing:.14em; text-transform:uppercase; padding: 9px 14px; border: 1px solid var(--line-2); border-radius: 2px; color: var(--fg-dim); background: transparent; cursor: pointer; transition: all .15s; }
-  .chip:hover { border-color: var(--phos); color: var(--fg); }
-  .chip.active { border-color: var(--phos); color: var(--phos); background: color-mix(in oklab, var(--phos) 10%, transparent); box-shadow: 0 0 20px var(--phos-glow); }
-  .chip .count { color: var(--fg-faint); margin-left: 6px; }
-
-  /* GRID of clean cards (triggers only) */
-  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; margin-bottom: 100px; }
-  .card { grid-column: span 4; min-height: 300px; position: relative; background: linear-gradient(180deg, var(--bg-2), var(--bg)); border: 1px solid var(--line-2); border-radius: 4px; padding: 28px 24px 24px; display: flex; flex-direction: column; overflow: hidden; cursor: pointer; transition: all .25s; text-align: left; color: inherit; font-family: inherit; }
-  .card.featured { grid-column: span 6; min-height: 340px; }
-  .card::before { content:""; position:absolute; inset:0; background-image: linear-gradient(var(--grid-tint) 1px, transparent 1px), linear-gradient(90deg, var(--grid-tint) 1px, transparent 1px); background-size: 24px 24px; mask-image: radial-gradient(ellipse 60% 40% at 70% 30%, black, transparent 80%); pointer-events:none; opacity:.6; }
-  .card::after { content:""; position:absolute; inset:-1px; border: 1px solid var(--phos); border-radius: 4px; opacity: 0; transition: opacity .25s; pointer-events:none; box-shadow: 0 0 32px var(--phos-glow), inset 0 0 32px color-mix(in oklab, var(--phos) 8%, transparent); }
-  .card:hover { transform: translateY(-2px); border-color: color-mix(in oklab, var(--phos) 30%, var(--line-2)); }
-  .card:hover::after { opacity: 1; }
-  .card-top { display:flex; align-items:flex-start; justify-content:space-between; margin-bottom: 24px; position: relative; z-index: 1; }
-  .card-glyph { width: 52px; height: 52px; border: 1px solid var(--line); border-radius: 3px; display:flex; align-items:center; justify-content:center; color: var(--phos); background: color-mix(in oklab, var(--phos) 4%, transparent); box-shadow: inset 0 0 20px color-mix(in oklab, var(--phos) 6%, transparent); }
-  .card-glyph svg { width: 26px; height: 26px; filter: drop-shadow(0 0 6px var(--phos-glow)); }
-  .card-status { font-family:"JetBrains Mono"; font-size:10px; letter-spacing:.16em; text-transform:uppercase; display:inline-flex; align-items:center; gap:6px; color: var(--fg-dim); padding: 5px 9px; border: 1px solid var(--line-2); border-radius: 2px; }
-  .card-status .d { width:6px; height:6px; border-radius:50%; background: var(--phos); box-shadow: 0 0 8px var(--phos); }
-  .card-status.beta .d { background: var(--amber); box-shadow: 0 0 8px var(--amber); }
-  .card-status.beta { color: var(--amber); }
-  .card-tag { font-family:"JetBrains Mono"; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--fg-faint); margin-bottom: 14px; position: relative; z-index: 1; }
-  .card-name { font-family:"Space Grotesk"; font-weight:500; font-size: 26px; letter-spacing:-.02em; margin: 0 0 10px; color: var(--fg); position: relative; z-index: 1; }
-  .card-name em { font-style: normal; color: var(--phos); }
-  .card.featured .card-name { font-size: 34px; }
-  .card-tease { color: var(--fg-dim); font-size: 14px; line-height: 1.55; margin: 0; flex: 1; position: relative; z-index: 1; }
-  .card-foot { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line-2); display: flex; align-items: center; justify-content: space-between; position: relative; z-index: 1; }
-  .card-price-mini { font-family:"JetBrains Mono"; font-size: 13px; color: var(--fg); }
-  .card-price-mini small { color: var(--fg-faint); font-size: 10px; letter-spacing: .12em; text-transform: uppercase; margin-left: 6px; }
-  .card-cta-mini { font-family:"JetBrains Mono"; font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--phos); display:inline-flex; align-items:center; gap: 6px; }
-
-  /* ============ MODAL ============ */
-  .modal-backdrop { position: fixed; inset: 0; background: color-mix(in oklab, var(--bg) 60%, transparent); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); z-index: 200; opacity: 0; pointer-events: none; transition: opacity .25s; }
-  .modal-backdrop.open { opacity: 1; pointer-events: auto; }
-  .modal { position: fixed; inset: 0; z-index: 201; display: flex; align-items: center; justify-content: center; padding: 40px 20px; opacity: 0; pointer-events: none; transition: opacity .3s; overflow-y: auto; }
-  .modal.open { opacity: 1; pointer-events: auto; }
-  .modal-card {
-    background: linear-gradient(180deg, var(--bg-2), var(--bg));
-    border: 1px solid color-mix(in oklab, var(--phos) 30%, var(--line));
-    border-radius: 6px;
-    max-width: 880px; width: 100%;
-    max-height: calc(100vh - 80px);
-    overflow: auto;
-    box-shadow: 0 40px 100px rgba(0,0,0,0.7), 0 0 80px var(--phos-glow);
-    transform: translateY(16px) scale(0.985);
-    transition: transform .3s cubic-bezier(.2,.7,.2,1);
-    position: relative;
-  }
-  .modal.open .modal-card { transform: none; }
-  .modal-card::before { content:""; position:absolute; inset:0; background-image: linear-gradient(var(--grid-tint) 1px, transparent 1px), linear-gradient(90deg, var(--grid-tint) 1px, transparent 1px); background-size: 32px 32px; mask-image: radial-gradient(ellipse 70% 40% at 80% 20%, black, transparent 80%); pointer-events:none; opacity:.5; border-radius: 6px; }
-  .modal-close { position: absolute; top: 16px; right: 16px; width: 36px; height: 36px; border: 1px solid var(--line-2); background: color-mix(in oklab, var(--bg) 80%, transparent); color: var(--fg-dim); border-radius: 2px; cursor: pointer; display:flex; align-items:center; justify-content:center; z-index: 10; transition: all .15s; font-size: 16px; font-family: inherit; }
-  .modal-close:hover { border-color: var(--phos); color: var(--phos); box-shadow: 0 0 16px var(--phos-glow); }
-
-  .modal-head { padding: 36px 40px 28px; border-bottom: 1px solid var(--line-2); position: relative; z-index: 1; display: flex; align-items: flex-start; gap: 24px; }
-  .modal-glyph { flex-shrink: 0; width: 72px; height: 72px; border: 1px solid var(--line); border-radius: 4px; display:flex; align-items:center; justify-content:center; color: var(--phos); background: color-mix(in oklab, var(--phos) 6%, transparent); box-shadow: inset 0 0 30px color-mix(in oklab, var(--phos) 8%, transparent); }
-  .modal-glyph svg { width: 36px; height: 36px; filter: drop-shadow(0 0 8px var(--phos-glow)); }
-  .modal-head-text { flex: 1; }
-  .modal-tag { font-family:"JetBrains Mono"; font-size:11px; letter-spacing:.18em; text-transform:uppercase; color: var(--fg-faint); margin-bottom: 8px; }
-  .modal-name { font-family:"Space Grotesk"; font-weight:500; font-size: 36px; letter-spacing:-.025em; margin: 0 0 8px; color: var(--fg); }
-  .modal-name em { font-style: normal; color: var(--phos); }
-  .modal-sub { color: var(--fg-dim); font-size: 14px; line-height: 1.5; margin: 0; }
-
-  .modal-body { padding: 32px 40px 40px; position: relative; z-index: 1; display: grid; grid-template-columns: 1.15fr 1fr; gap: 40px; }
-
-  .modal-section { margin-bottom: 26px; }
-  .modal-section:last-child { margin-bottom: 0; }
-  .modal-section h4 { font-family:"JetBrains Mono"; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--fg-faint); margin: 0 0 12px; display:flex; align-items:center; gap: 10px; }
-  .modal-section h4::before { content:""; width: 16px; height: 1px; background: var(--phos); }
-  .modal-section p { color: var(--fg-dim); font-size: 14px; line-height: 1.65; margin: 0; }
-
-  .feature-list { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 18px; }
-  .feature-list li { font-family:"JetBrains Mono"; font-size: 12px; color: var(--fg-dim); letter-spacing: 0.02em; display: flex; gap: 8px; align-items: flex-start; line-height: 1.5; }
-  .feature-list li::before { content:"›"; color: var(--phos); flex-shrink: 0; }
-
-  /* OPTIONS (pricing tiers) */
-  .options-label { font-family:"JetBrains Mono"; font-size: 10px; letter-spacing: .22em; text-transform: uppercase; color: var(--fg-faint); margin: 0 0 12px; display:flex; align-items:center; gap: 10px; }
-  .options-label::before { content:""; width: 16px; height: 1px; background: var(--phos); }
-  .options { display: flex; flex-direction: column; gap: 8px; margin-bottom: 20px; }
-  .opt {
-    display: grid; grid-template-columns: 20px 1fr auto; align-items: center; gap: 14px;
-    padding: 14px 16px;
-    background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 3px;
-    cursor: pointer; text-align: left;
-    font-family: inherit;
-    color: inherit;
-    transition: all .15s;
-    position: relative;
-  }
-  .opt:hover { border-color: color-mix(in oklab, var(--phos) 50%, var(--line-2)); }
-  .opt.selected { border-color: var(--phos); background: color-mix(in oklab, var(--phos) 6%, var(--bg-3)); box-shadow: 0 0 20px color-mix(in oklab, var(--phos) 20%, transparent); }
-  .opt .radio { width: 16px; height: 16px; border-radius: 50%; border: 1px solid var(--fg-faint); position: relative; flex-shrink: 0; }
-  .opt.selected .radio { border-color: var(--phos); }
-  .opt.selected .radio::after { content:""; position: absolute; inset: 3px; background: var(--phos); border-radius: 50%; box-shadow: 0 0 8px var(--phos); }
-  .opt-name { font-family:"Space Grotesk"; font-size: 15px; color: var(--fg); font-weight: 500; }
-  .opt-name small { display: block; font-family:"JetBrains Mono"; font-size: 10px; color: var(--fg-faint); letter-spacing: .1em; text-transform: uppercase; margin-top: 2px; font-weight: 400; }
-  .opt-price { font-family:"JetBrains Mono"; font-size: 16px; color: var(--fg); white-space: nowrap; }
-  .opt-price .per { font-size: 10px; color: var(--fg-faint); letter-spacing: .1em; text-transform: uppercase; margin-left: 4px; }
-  .opt-badge { position: absolute; top: -8px; right: 12px; background: var(--phos); color: var(--btn-fg); font-family:"JetBrains Mono"; font-size: 9px; letter-spacing: .14em; text-transform: uppercase; padding: 3px 7px; border-radius: 2px; font-weight: 600; }
-
-  /* SERVICES ONLY: dropdown + qty */
-  .svc-select { position: relative; margin-bottom: 16px; }
-  .svc-select-btn { width: 100%; background: var(--bg-3); border: 1px solid var(--line); border-radius: 2px; padding: 13px 16px; font-family:"JetBrains Mono"; font-size: 13px; color: var(--fg); display:flex; align-items:center; justify-content:space-between; cursor: pointer; text-align: left; transition: all .15s; }
-  .svc-select-btn:hover { border-color: var(--phos); }
-  .svc-select-btn .caret { color: var(--phos); transition: transform .2s; }
-  .svc-select.open .svc-select-btn .caret { transform: rotate(180deg); }
-  .svc-dropdown { position: absolute; top: calc(100% + 6px); left: 0; right: 0; background: var(--bg-2); border: 1px solid var(--line); border-radius: 2px; max-height: 260px; overflow: auto; z-index: 10; display: none; box-shadow: 0 16px 40px rgba(0,0,0,0.6); }
-  .svc-select.open .svc-dropdown { display: block; }
-  .svc-opt { padding: 11px 16px; font-family:"JetBrains Mono"; font-size: 12px; color: var(--fg-dim); cursor: pointer; display:flex; align-items:center; justify-content:space-between; border-bottom: 1px solid var(--line-2); }
-  .svc-opt:last-child { border-bottom: none; }
-  .svc-opt:hover { background: color-mix(in oklab, var(--phos) 6%, transparent); color: var(--fg); }
-  .svc-opt .p { color: var(--phos); font-size: 11px; }
-  .qty-row { display:flex; align-items:center; justify-content: space-between; padding: 12px 16px; background: var(--bg-3); border: 1px solid var(--line-2); border-radius: 2px; margin-bottom: 14px; font-family:"JetBrains Mono"; font-size: 12px; color: var(--fg-dim); }
-  .qty { display:inline-flex; align-items:center; gap: 8px; background: var(--bg); border: 1px solid var(--line-2); border-radius: 2px; padding: 2px; }
-  .qty button { width: 24px; height: 24px; border: none; background: transparent; color: var(--fg-dim); cursor: pointer; font-family: inherit; font-size: 14px; }
-  .qty button:hover { color: var(--phos); }
-  .qty input { width: 44px; text-align: center; background: transparent; border: none; color: var(--fg); font-family: inherit; font-size: 12px; outline: none; -moz-appearance: textfield; }
-  .qty input::-webkit-outer-spin-button, .qty input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
-
-  /* Total + checkout */
-  .total-block { padding: 18px 20px; background: var(--bg-3); border: 1px solid color-mix(in oklab, var(--phos) 20%, var(--line)); border-radius: 3px; margin-bottom: 14px; }
-  .total-row { display:flex; justify-content:space-between; align-items:center; padding: 6px 0; font-family:"JetBrains Mono"; font-size: 12px; color: var(--fg-dim); }
-  .total-row b { color: var(--fg); font-weight: 500; }
-  .total-final { display:flex; justify-content:space-between; align-items:center; padding-top: 14px; margin-top: 10px; border-top: 1px solid var(--phos); }
-  .total-final .lbl { color: var(--fg-faint); letter-spacing: .18em; text-transform: uppercase; font-size: 10px; font-family:"JetBrains Mono"; }
-  .total-final .amt { color: var(--phos); font-family:"JetBrains Mono"; font-size: 26px; text-shadow: 0 0 14px var(--phos-glow); }
-  .checkout-cta { width: 100%; background: var(--phos); color: var(--btn-fg); border: 1px solid var(--phos); padding: 15px; font-family:"JetBrains Mono"; font-size: 12px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; border-radius: 2px; cursor: pointer; box-shadow: 0 0 24px var(--phos-glow); transition: all .15s; display:flex; align-items:center; justify-content:center; gap: 10px; }
-  .checkout-cta:hover { box-shadow: 0 0 40px var(--phos-glow); transform: translateY(-1px); }
-  .checkout-meta { margin-top: 12px; font-family:"JetBrains Mono"; font-size: 10px; color: var(--fg-faint); letter-spacing: .1em; text-align: center; }
-
-  /* FOOTER */
-  footer { border-top: 1px solid var(--line-2); padding: 40px 0; font-family:"JetBrains Mono"; font-size: 11px; color: var(--fg-faint); letter-spacing: .1em; }
-  .foot { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap: 20px; }
-  .foot .legal { text-transform: uppercase; }
-  .foot .links { display:flex; gap: 28px; }
-  .foot .links a { color: var(--fg-dim); text-decoration: none; }
-  .foot .links a:hover { color: var(--phos); }
-
-  /* TWEAKS */
-  .tweaks-toggle { position:fixed; right:20px; bottom:20px; z-index:99; width:48px; height:48px; border-radius:50%; background: color-mix(in oklab, var(--bg) 85%, transparent); backdrop-filter: blur(12px); border:1px solid var(--line); color: var(--phos); cursor:pointer; display:flex; align-items:center; justify-content:center; box-shadow: 0 8px 24px rgba(0,0,0,.5), 0 0 20px var(--phos-glow); transition: transform .15s; }
-  .tweaks-toggle:hover { transform: scale(1.08); }
-  .tweaks { position:fixed; right:20px; bottom:20px; z-index:100; background: color-mix(in oklab, var(--bg) 90%, transparent); backdrop-filter: blur(16px); border:1px solid var(--line); border-radius:6px; padding:16px 18px; min-width:240px; font-family:"JetBrains Mono"; font-size:11px; color:var(--fg); box-shadow: 0 20px 60px rgba(0,0,0,.6), 0 0 40px var(--phos-glow); display:none; }
-  .tweaks.open { display: block; }
-  .tweaks.open ~ .tweaks-toggle { display: none; }
-  .tweaks h4 { margin:0 0 12px; font-family:"Space Grotesk"; font-weight:500; font-size:12px; letter-spacing:.22em; text-transform:uppercase; color: var(--phos); display:flex; justify-content:space-between; align-items:center; }
-  .tweaks h4 button { background: transparent; border: none; color: var(--fg-faint); cursor: pointer; font-size: 14px; }
-  .tweak-row label { display:block; color: var(--fg-faint); letter-spacing:.14em; text-transform:uppercase; margin-bottom:8px; font-size: 10px; }
-  .theme-opts { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
-  .theme-opt { padding:8px 6px; border:1px solid var(--line-2); border-radius:3px; background:transparent; color:var(--fg-dim); font-family:inherit; font-size:10px; letter-spacing:.1em; text-transform:uppercase; cursor:pointer; transition: all .15s; }
-  .theme-opt:hover { border-color: var(--phos); color: var(--fg); }
-  .theme-opt.active { border-color: var(--phos); color: var(--phos); background: color-mix(in oklab, var(--phos) 12%, transparent); box-shadow: 0 0 12px var(--phos-glow); }
-
-  .reveal { opacity: 0; transform: translateY(20px); transition: opacity .7s cubic-bezier(.2,.7,.2,1), transform .7s cubic-bezier(.2,.7,.2,1); }
-  .reveal.in { opacity: 1; transform: none; }
-  @media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
-
-  /* ============ RESPONSIVE ============ */
-  @media (max-width: 1100px) {
-    .card { grid-column: span 6; }
-    .card.featured { grid-column: span 12; }
-  }
-  @media (max-width: 960px) {
-    .modal-body { grid-template-columns: 1fr; gap: 24px; padding: 24px 28px 32px; }
-    .modal-head { padding: 28px 28px 22px; gap: 18px; }
-    .modal-glyph { width: 56px; height: 56px; }
-    .modal-glyph svg { width: 28px; height: 28px; }
-    .modal-name { font-size: 28px; }
-  }
-  @media (max-width: 720px) {
-    .container { padding: 0 20px; }
-    nav ul { display: none; }
-    .menu-btn { display: flex; }
-    nav.mobile-open ul { display:flex; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; background: color-mix(in oklab, var(--bg) 95%, transparent); padding: 14px 20px; gap: 14px; border-bottom: 1px solid var(--line-2); backdrop-filter: blur(12px); }
-    nav.mobile-open ul a { font-size: 14px; padding: 6px 0; }
-    .nav-inner { padding: 12px 20px; }
-    .brand .version { display: none; }
-    .nav-cta { padding: 8px 12px; font-size: 11px; }
-    .page-head { padding: 110px 0 40px; }
-    .page-head h1 { font-size: 38px; }
-    .grid { gap: 16px; margin-bottom: 80px; }
-    .card { grid-column: span 12; padding: 24px 20px; min-height: 0; }
-    .card.featured { grid-column: span 12; }
-    .foot { flex-direction: column; text-align: center; }
-    .modal { padding: 20px 12px; }
-    .modal-card { max-height: calc(100vh - 40px); border-radius: 6px; }
-    .modal-head { flex-direction: column; padding: 24px 22px 20px; gap: 16px; }
-    .modal-name { font-size: 26px; }
-    .modal-body { padding: 22px 22px 28px; }
-    .feature-list { grid-template-columns: 1fr; }
-    .modal-close { top: 12px; right: 12px; }
-    .total-final .amt { font-size: 22px; }
-    .tweaks, .tweaks-toggle { right: 14px; bottom: 14px; }
-    .tweaks { min-width: 210px; }
-  }
-</style>
+<link rel="stylesheet" href="assets/css/phantom.css">
 </head>
 <body>
 
@@ -277,40 +40,25 @@
 <div class="scroll-progress" id="progress"></div>
 <div class="grid-bg"></div>
 
-<button class="tweaks-toggle" id="tweaksToggle" aria-label="Open tweaks">
-  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="10" cy="10" r="2.5"/><path d="M10 2v3M10 15v3M2 10h3M15 10h3M4.2 4.2l2.1 2.1M13.7 13.7l2.1 2.1M4.2 15.8l2.1-2.1M13.7 6.3l2.1-2.1"/></svg>
-</button>
-<div class="tweaks" id="tweaksPanel">
-  <h4>Tweaks <button id="closeTweaks" aria-label="Close">✕</button></h4>
-  <div class="tweak-row">
-    <label>Color mood</label>
-    <div class="theme-opts">
-      <button class="theme-opt" data-theme="void">Void</button>
-      <button class="theme-opt" data-theme="phosphor">Phos</button>
-      <button class="theme-opt" data-theme="ember">Ember</button>
-      <button class="theme-opt" data-theme="mono">Mono</button>
-    </div>
-  </div>
-</div>
-
 <nav id="nav">
   <div class="nav-inner">
-    <a class="brand" href="Phantom.html">
+    <a class="brand" href="index.html">
       <span class="logo-mark"><svg style="color: var(--phos)"><use href="#phantom-glyph"/></svg></span>
       <span class="wordmark">Phantom</span>
       <span class="version">v0.9.4-rc</span>
     </a>
     <ul>
-      <li><a href="Phantom.html">Home</a></li>
+      <li><a href="index.html">Home</a></li>
       <li><a href="products.html" class="active">Products</a></li>
-      <li><a href="Phantom.html#pipeline">Pipeline</a></li>
-      <li><a href="Phantom.html#matrix">Matrix</a></li>
+      <li><a href="index.html#pipeline">Pipeline</a></li>
+      <li><a href="index.html#matrix">Matrix</a></li>
+      <li><a href="index.html#team">Team</a></li>
     </ul>
-    <a href="#" class="nav-cta">
-      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 3h10M1 6h10M1 9h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
-      Account
+    <a href="index.html#team" class="nav-cta">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 6h10m0 0L7 2m4 4L7 10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      Meet team
     </a>
-    <button class="menu-btn" id="menuBtn" aria-label="Menu">
+    <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
       <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 5h14M2 9h14M2 13h14"/></svg>
     </button>
   </div>
@@ -320,9 +68,9 @@
 
 <section class="page-head">
   <div class="container">
-    <div class="eyebrow">Catalog · 06 builds · engagement-bound</div>
-    <h1 class="reveal">The <em>Phantom</em> family.<br>One banner. Six builds.</h1>
-    <p class="reveal">Every Phantom product shares the same philosophy: offline-first, cryptographically signed, and built for operators who need results without paper trails. Tap any card for details and pricing.</p>
+    <div class="eyebrow">Catalog · 6 builds</div>
+    <h1 class="reveal">Choose a build.<br><em>Details stay short.</em></h1>
+    <p class="reveal">Short summaries, quick pricing, and deeper details only when you tap a card.</p>
     <div class="filters reveal" id="filters">
       <button class="chip active" data-cat="all">All <span class="count">06</span></button>
       <button class="chip" data-cat="security">Security <span class="count">03</span></button>
@@ -338,14 +86,34 @@
   </div>
 </section>
 
+<section class="catalog-proof">
+  <div class="container proof-grid">
+    <div class="proof-card reveal">
+      <span>Studio built</span>
+      <strong>One product team</strong>
+      <p>Engineering, design, QA, and support share the same release standard.</p>
+    </div>
+    <div class="proof-card reveal">
+      <span>Scoped delivery</span>
+      <strong>Clear handoff</strong>
+      <p>Every build ships with plain setup notes and a short acceptance path.</p>
+    </div>
+    <div class="proof-card reveal">
+      <span>Consistent system</span>
+      <strong>Synth + Topo</strong>
+      <p>One polished visual direction across every product page and viewport.</p>
+    </div>
+  </div>
+</section>
+
 <footer>
   <div class="container foot">
     <div class="legal">Phantom · Ethical use only · Engagement-bound</div>
     <div class="links">
-      <a href="Phantom.html">Home</a>
+      <a href="index.html">Home</a>
       <a href="products.html">Products</a>
-      <a href="#">Docs</a>
-      <a href="#">PGP</a>
+      <a href="README.md">Docs</a>
+      <a href="mailto:security@example.com">Contact</a>
     </div>
     <div class="legal">v0.9.4-rc</div>
   </div>
@@ -354,7 +122,7 @@
 
 <!-- MODAL -->
 <div class="modal-backdrop" id="backdrop"></div>
-<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalName">
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalName" aria-hidden="true">
   <div class="modal-card" id="modalCard">
     <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
     <div class="modal-head">
@@ -368,15 +136,15 @@
     <div class="modal-body">
       <div>
         <div class="modal-section">
-          <h4>Overview</h4>
+          <h4>Summary</h4>
           <p id="modalDesc"></p>
         </div>
         <div class="modal-section">
-          <h4>Included</h4>
+          <h4>Highlights</h4>
           <ul class="feature-list" id="modalFeatures"></ul>
         </div>
         <div class="modal-section" id="modalPlatformsWrap">
-          <h4>Platforms</h4>
+          <h4>Works on</h4>
           <p id="modalPlatforms" style="font-family:'JetBrains Mono';font-size:12px;letter-spacing:.04em;"></p>
         </div>
       </div>
@@ -396,27 +164,14 @@
           Checkout
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M1 6h10m0 0L7 2m4 4L7 10" stroke="currentColor" stroke-width="2" stroke-linecap="square"/></svg>
         </button>
-        <div class="checkout-meta">Secured handoff to your payment system · signed invoice</div>
+        <div class="checkout-meta">Local preview only · connect checkout or inquiry routing when ready</div>
       </div>
     </div>
   </div>
 </div>
 
+<script src="assets/js/phantom-explorer.js"></script>
 <script>
-// ===== Theme =====
-function setTheme(t) {
-  if (t === 'ember') document.documentElement.removeAttribute('data-theme');
-  else document.documentElement.setAttribute('data-theme', t);
-  document.querySelectorAll('.theme-opt').forEach(b => b.classList.toggle('active', b.dataset.theme===t));
-  localStorage.setItem('phantom-theme', t);
-}
-setTheme(localStorage.getItem('phantom-theme') || 'ember');
-document.querySelectorAll('.theme-opt').forEach(b => b.addEventListener('click', () => setTheme(b.dataset.theme)));
-const panel = document.getElementById('tweaksPanel');
-const tBtn = document.getElementById('tweaksToggle');
-tBtn.addEventListener('click', () => { panel.classList.add('open'); tBtn.style.display='none'; });
-document.getElementById('closeTweaks').addEventListener('click', () => { panel.classList.remove('open'); tBtn.style.display='flex'; });
-
 // ===== Scroll progress =====
 const progress = document.getElementById('progress');
 window.addEventListener('scroll', () => {
@@ -424,11 +179,6 @@ window.addEventListener('scroll', () => {
   const max = document.documentElement.scrollHeight - window.innerHeight;
   progress.style.width = (max > 0 ? (y/max)*100 : 0) + '%';
 }, {passive: true});
-
-// ===== Mobile nav =====
-document.getElementById('menuBtn').addEventListener('click', () => {
-  document.getElementById('nav').classList.toggle('mobile-open');
-});
 
 // ===== Reveal =====
 const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold: 0.08});
@@ -446,61 +196,61 @@ const glyphs = {
 
 const products = [
   {
-    id: 'veil', cat: 'security', featured: true, glyph: 'veil', tag: 'Flagship · Evasion', status: {label:'Stable · v1.2', cls:''},
+    id: 'veil', cat: 'security', featured: true, glyph: 'veil', tag: 'Flagship · Review', status: {label:'Stable · v1.2', cls:''},
     name: 'Veil', nameEmph: 'Phantom',
-    tease: 'The bypass engine behind the Phantom lab. Polymorph any payload on-device until it ghosts every detection.',
-    sub: 'On-device bypass engine · 42 deterministic transforms · local LLM-assisted hardening',
-    desc: 'PhantomVeil attaches to any PE, Mach-O, DLL, or shellcode and iteratively rewrites it against the Phantom detection matrix. Syscall indirection, string encryption, control-flow flattening, sleep masking, anti-emulation, and import hashing — all on-device, all deterministic, all signed. The mutation engine runs a local 7B model that proposes targeted patches based on the exact rule that flagged the previous generation.',
-    features: ['42 transforms','Local 7B model','Deterministic passes','Reversible journal','Engagement-bound','Signed artifacts','Offline-first','Diff-view analyzer'],
+    tease: 'Policy review plus signed local reports.',
+    sub: 'Policy review · signed reports',
+    desc: 'Review approved artifacts against local rules and export signed reports.',
+    features: ['Rule mapping','Local model','Signed reports','Offline-first'],
     platforms: 'Windows 10/11 · macOS 13+ · Linux (beta)',
     priceStart: '$149',
     options: [
-      { id: 'veil-m', name: 'Monthly',   detail: 'Billed monthly · cancel anytime', price: 29, per: '/mo' },
-      { id: 'veil-q', name: '3 Month',   detail: 'Save 15% vs monthly',             price: 74, per: '/quarter', badge: 'Popular' },
-      { id: 'veil-y', name: 'Annual',    detail: 'Save 30% vs monthly',             price: 249,per: '/year' },
-      { id: 'veil-l', name: 'Lifetime',  detail: 'One-time · all future updates',   price: 599, per: 'once' },
+      { id: 'veil-m', name: 'Monthly',   detail: 'Cancel anytime', price: 29, per: '/mo' },
+      { id: 'veil-q', name: '3 Month',   detail: 'Best value',     price: 74, per: '/quarter', badge: 'Popular' },
+      { id: 'veil-y', name: 'Annual',    detail: 'Save more',      price: 249,per: '/year' },
+      { id: 'veil-l', name: 'Lifetime',  detail: 'One payment',    price: 599, per: 'once' },
     ],
     defaultOpt: 'veil-q',
   },
   {
-    id: 'spoof', cat: 'security', glyph: 'spoof', tag: 'Hardware · HWID', status: {label:'Stable', cls:''},
+    id: 'spoof', cat: 'security', glyph: 'spoof', tag: 'Identity · Baseline', status: {label:'Stable', cls:''},
     name: 'Spoof', nameEmph: 'Phantom',
-    tease: 'Kernel-level hardware identity rotation. Per-session randomization across 12 vectors.',
-    sub: 'Ring-0 identity rotation · 12 vectors · persistent seed mode',
-    desc: 'PhantomSpoof randomizes disk serials, MAC addresses, SMBIOS fields, GPU device IDs, and TPM attestation per-session for authorized testing environments. Persistent seed mode locks a fingerprint for long-horizon footprint research, useful when reproducing case studies or validating detection rules against a consistent identity.',
-    features: ['Disk serials','MAC randomization','SMBIOS fields','GPU device IDs','TPM attestation','Persistent seeds','Kernel driver','Session rotation'],
+    tease: 'Device identity profiles for lab testing.',
+    sub: 'Identity baselines · lab profiles',
+    desc: 'Create repeatable device profiles for authorized lab and inventory tests.',
+    features: ['Inventory signals','MAC profiles','TPM posture','Session comparison'],
     platforms: 'Windows 10/11',
     priceStart: '$19',
     options: [
       { id: 'spoof-m', name: 'Monthly',  detail: 'Cancel anytime', price: 19, per: '/mo' },
-      { id: 'spoof-q', name: '3 Month',  detail: 'Save 12%',       price: 49, per: '/quarter', badge: 'Popular' },
-      { id: 'spoof-y', name: 'Annual',   detail: 'Save 25%',       price: 169, per: '/year' },
+      { id: 'spoof-q', name: '3 Month',  detail: 'Best value',     price: 49, per: '/quarter', badge: 'Popular' },
+      { id: 'spoof-y', name: 'Annual',   detail: 'Save more',      price: 169, per: '/year' },
     ],
     defaultOpt: 'spoof-q',
   },
   {
     id: 'stress', cat: 'security', glyph: 'stress', tag: 'Load · Network', status: {label:'Beta', cls:'beta'},
     name: 'Stress', nameEmph: 'Phantom',
-    tease: 'Authorized-target load & resilience testing. Engagement-bound by design.',
-    sub: 'Authorized-target load testing · scoped engagement files · PDF reports',
-    desc: 'PhantomStress is a pentest-grade load and resilience testing suite. Engagement files cryptographically lock the allowed IP ranges, protocols, and duration — the tool refuses to run outside scope. Layer-4 / Layer-7 profiling, resilience scoring, anomaly detection, and formatted PDF reports for your deliverable.',
-    features: ['Engagement files','Layer-4 / L7 profiling','Resilience scoring','PDF reports','Scope enforcement','Replay sessions','Bandwidth budgets','Audit log'],
+    tease: 'Scoped load testing and resilience reports.',
+    sub: 'Load testing · scoped reports',
+    desc: 'Run authorized load tests with scope locks, resilience scoring, and exportable reports.',
+    features: ['Scope locks','L4 / L7 profiling','Resilience score','PDF reports'],
     platforms: 'Windows · macOS · Linux',
     priceStart: '$29',
     options: [
       { id: 'stress-m', name: 'Monthly',  detail: 'Cancel anytime', price: 29, per: '/mo' },
-      { id: 'stress-q', name: '3 Month',  detail: 'Save 15%',       price: 74, per: '/quarter', badge: 'Popular' },
-      { id: 'stress-y', name: 'Annual',   detail: 'Save 30% · full license', price: 249, per: '/year' },
+      { id: 'stress-q', name: '3 Month',  detail: 'Best value',     price: 74, per: '/quarter', badge: 'Popular' },
+      { id: 'stress-y', name: 'Annual',   detail: 'Save more',      price: 249, per: '/year' },
     ],
     defaultOpt: 'stress-q',
   },
   {
     id: 'bot', cat: 'automation', glyph: 'bot', tag: 'Discord · Automation', status: {label:'Stable', cls:''},
     name: 'Bot', nameEmph: 'Phantom',
-    tease: 'Full-feature Discord bot. Modular plugins, self-host or hosted.',
-    sub: 'Discord automation · 40+ modules · self-host or hosted',
-    desc: 'PhantomBot is a general-purpose Discord bot covering moderation, anti-raid, economy, tickets, custom commands, role automation, giveaways, and welcome flows. Everything is plug-in architected in TypeScript; drop in your own module without forking the core. Hosted tier includes a dashboard, backups, and priority support.',
-    features: ['Moderation','Anti-raid','Tickets','Economy','Custom commands','Role automation','Giveaways','Welcome flows'],
+    tease: 'Discord bot with hosted or self-host plans.',
+    sub: 'Discord automation · modular bot',
+    desc: 'Moderation, tickets, commands, roles, giveaways, and welcome flows in one bot.',
+    features: ['Moderation','Tickets','Custom commands','Role automation'],
     platforms: 'Discord · Node 18+',
     priceStart: 'Free',
     options: [
@@ -513,39 +263,36 @@ const products = [
   {
     id: 'rl', cat: 'automation', glyph: 'rl', tag: 'Game AI · Rocket League', status: {label:'Training S3', cls:'beta'},
     name: 'RL', nameEmph: 'Phantom',
-    tease: 'Self-learning Rocket League agent. Coaching overlay, replay analysis.',
-    sub: 'Self-learning agent · coaching overlay · replay export',
-    desc: 'PhantomRL is a reinforcement-learning Rocket League agent trained on 40M+ replays. Scrimmage mode lets you practice against Grand-Champ-level bots; mirror mode coaches you in real time by highlighting your decisions vs the optimal policy. Exportable replay files with per-frame decision attribution.',
-    features: ['RL agent','40M+ replays','Coaching overlay','Replay export','Mirror mode','Frame attribution','Custom workshop','Stat tracker'],
+    tease: 'Rocket League AI coach and replay review.',
+    sub: 'AI coach · replay review',
+    desc: 'Practice, review replays, and compare decisions against a trained game model.',
+    features: ['AI coach','Replay export','Mirror mode','Stat tracker'],
     platforms: 'Windows · macOS',
     priceStart: '$9',
     options: [
       { id: 'rl-m', name: 'Monthly',  detail: 'Cancel anytime', price: 9, per: '/mo' },
-      { id: 'rl-q', name: '3 Month',  detail: 'Save 15%',       price: 23, per: '/quarter', badge: 'Popular' },
-      { id: 'rl-y', name: 'Annual',   detail: 'Save 30%',       price: 75, per: '/year' },
+      { id: 'rl-q', name: '3 Month',  detail: 'Best value',     price: 23, per: '/quarter', badge: 'Popular' },
+      { id: 'rl-y', name: 'Annual',   detail: 'Save more',      price: 75, per: '/year' },
     ],
     defaultOpt: 'rl-q',
   },
   {
     id: 'services', cat: 'services', glyph: 'services', tag: 'À la carte', status: {label:'Live · 48h avg', cls:''},
     name: 'Services', nameEmph: 'Phantom',
-    tease: 'Operator-grade contract work. Tokens, members, boosts, builds, fixes.',
-    sub: 'À la carte contract work · vetted team · signed delivery',
-    desc: 'PhantomServices is our menu of done-for-you work. Pick a service, set a quantity, and we route it to a vetted team. Every delivery ships with a signed completion receipt. Discord-related services come with replacement warranties; build work comes with a written scope up front.',
-    features: ['Signed delivery','Warranties','Vetted team','Written scope','Crypto-friendly','No records kept','48h avg start','Revision rounds'],
+    tease: 'Websites, automations, setup, and fixes.',
+    sub: 'Contract work · scoped delivery',
+    desc: 'Pick a service, set quantity, and turn it into a clear written scope.',
+    features: ['Written scope','Signed delivery','Revision rounds','Acceptance checklist'],
     platforms: 'Global · async',
-    priceStart: 'From $0.12',
+    priceStart: 'From $85',
     isServices: true,
     svcOptions: [
-      { id: 'tokens-unv',  name: 'Discord tokens (unverified)',  unit: 0.80, min: 10, max: 5000, unitQty: 'token',   delivery: '30–60 min' },
-      { id: 'tokens-ver',  name: 'Discord tokens (email-verified)', unit: 2.50, min: 5,  max: 2000, unitQty: 'token', delivery: '1–4 h' },
-      { id: 'members',     name: 'Discord members',               unit: 0.12, min: 50, max: 50000, unitQty: 'member', delivery: '2–24 h' },
-      { id: 'boosts-1m',   name: 'Discord boosts (1 month)',      unit: 4.50, min: 2,  max: 30,   unitQty: 'boost',  delivery: '<24 h' },
-      { id: 'boosts-3m',   name: 'Discord boosts (3 month)',      unit: 11.00,min: 2,  max: 30,   unitQty: 'boost',  delivery: '<24 h' },
-      { id: 'server-setup',name: 'Discord server setup',          unit: 75.00,min: 1,  max: 10,   unitQty: 'server', delivery: '2–5 days' },
-      { id: 'website',     name: 'Website creation',              unit: 450.00,min:1,  max: 10,   unitQty: 'site',   delivery: '7–10 days' },
-      { id: 'project-fix', name: 'Project improvement / fix',     unit: 85.00,min: 1,  max: 40,   unitQty: 'hour',   delivery: 'On schedule' },
-      { id: 'project-new', name: 'New project creation',          unit: 1200.00,min:1, max: 5,    unitQty: 'project',delivery: '2–6 weeks' },
+      { id: 'server-audit', name: 'Discord server audit', unit: 120.00, min: 1, max: 20, unitQty: 'audit', delivery: '2-4 days' },
+      { id: 'server-setup', name: 'Discord server setup', unit: 180.00, min: 1, max: 10, unitQty: 'server', delivery: '3-5 days' },
+      { id: 'automation', name: 'Workflow automation', unit: 95.00, min: 2, max: 80, unitQty: 'hour', delivery: 'On schedule' },
+      { id: 'website', name: 'Website creation', unit: 450.00, min: 1, max: 10, unitQty: 'site', delivery: '7-10 days' },
+      { id: 'project-fix', name: 'Project improvement / fix', unit: 85.00, min: 1, max: 40, unitQty: 'hour', delivery: 'On schedule' },
+      { id: 'project-new', name: 'New project creation', unit: 1200.00, min: 1, max: 5, unitQty: 'project', delivery: '2-6 weeks' },
     ],
   },
 ];
@@ -557,13 +304,12 @@ function renderGrid() {
     <button class="card reveal${p.featured ? ' featured' : ''}" data-cat="${p.cat}" data-id="${p.id}" aria-label="Open ${p.nameEmph}${p.name} details">
       <div class="card-top">
         <div class="card-glyph">${glyphs[p.glyph]}</div>
-        <span class="card-status ${p.status.cls}"><span class="d"></span>${p.status.label}</span>
+        <div class="card-price-mini">${p.priceStart}</div>
       </div>
-      <div class="card-tag">${p.tag}</div>
       <h3 class="card-name"><em>${p.nameEmph}</em>${p.name}</h3>
       <p class="card-tease">${p.tease}</p>
       <div class="card-foot">
-        <div class="card-price-mini">${p.priceStart}<small>${p.isServices ? 'varies' : 'from'}</small></div>
+        <span class="card-status ${p.status.cls}"><span class="d"></span>${p.status.label}</span>
         <span class="card-cta-mini">View details <svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M1 5h8m0 0L6 2m3 3L6 8" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg></span>
       </div>
     </button>
@@ -602,7 +348,7 @@ function openModal(id) {
   document.getElementById('modalName').innerHTML = `<em>${p.nameEmph}</em>${p.name}`;
   document.getElementById('modalSub').textContent = p.sub;
   document.getElementById('modalDesc').textContent = p.desc;
-  document.getElementById('modalFeatures').innerHTML = p.features.map(f => `<li>${f}</li>`).join('');
+  document.getElementById('modalFeatures').innerHTML = p.features.slice(0, 4).map(f => `<li>${f}</li>`).join('');
   document.getElementById('modalPlatforms').textContent = p.platforms;
 
   const optionsEl = document.getElementById('modalOptions');
@@ -682,6 +428,7 @@ function openModal(id) {
 
   backdrop.classList.add('open');
   modal.classList.add('open');
+  modal.setAttribute('aria-hidden', 'false');
   document.body.classList.add('lock');
   setTimeout(() => document.getElementById('modalClose').focus(), 60);
 }
@@ -703,6 +450,7 @@ function updateTotals() {
 function closeModal() {
   backdrop.classList.remove('open');
   modal.classList.remove('open');
+  modal.setAttribute('aria-hidden', 'true');
   document.body.classList.remove('lock');
   currentProduct = null;
 }
@@ -713,14 +461,12 @@ modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); }
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('open')) closeModal(); });
 
 document.getElementById('checkoutBtn').addEventListener('click', () => {
-  // Payment integration hook — your system picks up from here.
-  // Payload below gives you everything needed.
-  const payload = currentProduct.isServices
+  // Preview hook. Connect this selection to checkout or an inquiry endpoint when ready.
+  const selection = currentProduct.isServices
     ? { product: currentProduct.id, service: currentSvc.id, qty: currentQty, unit: currentSvc.unit, total: currentQty * currentSvc.unit }
     : { product: currentProduct.id, option: currentOpt.id, price: currentOpt.price };
-  console.log('[phantom:checkout]', payload);
-  // TODO: route to your payment system (window.location = '/pay?...' or fetch to /api/checkout)
-  alert('Checkout hook fired. See console for payload.\n\n' + JSON.stringify(payload, null, 2));
+  console.log('[phantom:checkout]', selection);
+  alert('Preview inquiry captured locally. Connect this hook to checkout or a contact form when ready.\n\n' + JSON.stringify(selection, null, 2));
 });
 
 // Close service dropdown on outside click

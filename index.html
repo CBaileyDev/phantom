@@ -1,14 +1,654 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="synth" data-bg="topo" data-default-theme="synth" data-default-bg="topo">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Phantom — The payload that was never there.</title>
-<meta http-equiv="refresh" content="0; url=Phantom.html" />
-<link rel="canonical" href="Phantom.html" />
+<title>Phantom — Authorized Security Lab</title>
+<meta name="description" content="Phantom is an authorized, offline-first security lab and product catalog for scoped testing, resilience analysis, and operator workflows.">
+<meta property="og:title" content="Phantom">
+<meta property="og:description" content="Authorized security lab and product catalog for scoped testing workflows.">
+<meta property="og:image" content="https://cbaileydev.github.io/phantom/assets/og-image.png">
+<meta property="og:url" content="https://cbaileydev.github.io/phantom/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Phantom">
+<meta name="twitter:description" content="Authorized security lab and product catalog for scoped testing workflows.">
+<meta name="twitter:image" content="https://cbaileydev.github.io/phantom/assets/og-image.png">
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/phantom.css">
 </head>
 <body>
-<script>window.location.replace('Phantom.html');</script>
-<p>Redirecting to <a href="Phantom.html">Phantom.html</a>…</p>
+
+<div class="scroll-progress" id="progress"></div>
+
+<!-- Reusable Phantom logo symbol -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- The Phantom ghost mark:
+         A rounded-top capsule with scalloped base and two void eye slits.
+         Geometric, original. -->
+    <symbol id="phantom-glyph" viewBox="0 0 64 64">
+      <!-- outer ring -->
+      <circle cx="32" cy="32" r="30" fill="none" stroke="currentColor" stroke-opacity="0.25" stroke-width="1"/>
+      <!-- tick marks -->
+      <g stroke="currentColor" stroke-opacity="0.4" stroke-width="1">
+        <line x1="32" y1="2" x2="32" y2="6"/>
+        <line x1="32" y1="58" x2="32" y2="62"/>
+        <line x1="2" y1="32" x2="6" y2="32"/>
+        <line x1="58" y1="32" x2="62" y2="32"/>
+      </g>
+      <!-- ghost body: capsule top + scalloped bottom -->
+      <path d="
+        M 16 28
+        C 16 19, 23 14, 32 14
+        C 41 14, 48 19, 48 28
+        L 48 46
+        C 46 46, 45 44, 43.5 44
+        C 42 44, 41 46, 39 46
+        C 37 46, 36 44, 34.5 44
+        C 33 44, 32 46, 30 46
+        C 28 46, 27 44, 25.5 44
+        C 24 44, 23 46, 21 46
+        C 19 46, 18 44, 16 46
+        Z
+      " fill="currentColor"/>
+      <!-- void eyes (cut-through) -->
+      <ellipse cx="26" cy="28" rx="2.2" ry="3.2" fill="#000"/>
+      <ellipse cx="38" cy="28" rx="2.2" ry="3.2" fill="#000"/>
+      <!-- inner glow highlight -->
+      <ellipse cx="26" cy="26.5" rx="0.7" ry="1" fill="currentColor" opacity="0.9"/>
+      <ellipse cx="38" cy="26.5" rx="0.7" ry="1" fill="currentColor" opacity="0.9"/>
+    </symbol>
+    <symbol id="phantom-mono" viewBox="0 0 64 64">
+      <path d="
+        M 16 28
+        C 16 19, 23 14, 32 14
+        C 41 14, 48 19, 48 28
+        L 48 46
+        C 46 46, 45 44, 43.5 44
+        C 42 44, 41 46, 39 46
+        C 37 46, 36 44, 34.5 44
+        C 33 44, 32 46, 30 46
+        C 28 46, 27 44, 25.5 44
+        C 24 44, 23 46, 21 46
+        C 19 46, 18 44, 16 46
+        Z
+      " fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <ellipse cx="26" cy="28" rx="2.2" ry="3.2" fill="currentColor"/>
+      <ellipse cx="38" cy="28" rx="2.2" ry="3.2" fill="currentColor"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="grid-bg"></div>
+
+<nav id="nav">
+  <div class="nav-inner">
+    <a class="brand" href="index.html">
+      <span class="logo-mark"><svg style="color: var(--phos)"><use href="#phantom-glyph"/></svg></span>
+      <span class="wordmark">Phantom</span>
+      <span class="version">v0.9.4-rc</span>
+    </a>
+    <ul>
+      <li><a href="#arsenal">Arsenal</a></li>
+      <li><a href="#team">Team</a></li>
+      <li><a href="products.html">Products</a></li>
+      <li><a href="#pipeline">Pipeline</a></li>
+      <li><a href="#matrix">Matrix</a></li>
+    </ul>
+    <a href="products.html" class="nav-cta">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v8m0 0l3-3m-3 3L3 6m-2 4h10" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      Explore builds
+    </a>
+  <button class="menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 5h14M2 9h14M2 13h14"/></svg>
+    </button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Authorized Resilience Laboratory · v0.9.4</div>
+        <h1 class="hero-title">
+          The signal that was <span class="strike">noisy</span><br>
+          <em>finally clear.</em>
+        </h1>
+        <p class="hero-sub">
+          Run approved scenarios locally. Compare signals. Export signed reports. No telemetry.
+        </p>
+        <div class="cta-row">
+          <a href="products.html" class="btn btn-primary">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9m0 0l3.5-3.5M7 10L3.5 6.5M1 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+            Explore builds
+          </a>
+          <a href="#pipeline" class="btn btn-ghost">
+            See the pipeline
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+          </a>
+        </div>
+        <div class="hero-meta">
+          <span>Air-gapped</span>
+          <span>Local inference</span>
+          <span>Mac · Win</span>
+          <span>Signed builds</span>
+        </div>
+      </div>
+
+      <!-- Right: scrolling viewport -->
+      <div class="viewport">
+        <div class="vp-chrome">
+          <div class="vp-dots"><i></i><i></i><i></i></div>
+          <div class="vp-title"><b>phantom</b> › session // <b id="sid">A3F9-7C21</b></div>
+          <div class="vp-rec">LIVE</div>
+        </div>
+        <div class="vp-body">
+          <div class="vp-panel">
+            <div class="vp-panel-head"><span>Sandbox telemetry</span><b>stream · <span id="lc">0421</span></b></div>
+            <div class="scroll-track" id="log-track"></div>
+          </div>
+          <div class="vp-panel">
+            <div class="vp-panel-head"><span>Mutation engine</span><b>gen · <span id="gc">17</span></b></div>
+            <div class="scroll-track" id="code-track"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="block studio-block" id="team">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-kicker">00 · Studio</div>
+        <h2 class="section-title">Built like a <em>small product team.</em></h2>
+      </div>
+      <p class="section-desc">One shared system across engineering, design, QA, documentation, and customer delivery.</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card reveal">
+        <span>01</span>
+        <h3>Product engineering</h3>
+        <p>Owns the core builds, integrations, release packaging, and stability work.</p>
+      </div>
+      <div class="team-card reveal">
+        <span>02</span>
+        <h3>Security review</h3>
+        <p>Defines scoped use, report quality, and the checks behind each module.</p>
+      </div>
+      <div class="team-card reveal">
+        <span>03</span>
+        <h3>Automation systems</h3>
+        <p>Connects bots, workflows, internal tooling, and repeatable delivery paths.</p>
+      </div>
+      <div class="team-card reveal">
+        <span>04</span>
+        <h3>Design & QA</h3>
+        <p>Keeps the interface consistent, responsive, readable, and polished.</p>
+      </div>
+      <div class="team-card reveal">
+        <span>05</span>
+        <h3>Client operations</h3>
+        <p>Handles onboarding, handoff notes, revisions, and support follow-through.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ARSENAL ========== -->
+<section class="block" id="arsenal">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">01 · Arsenal</div>
+        <h2 class="section-title">Local tools. <em>Clear reports.</em></h2>
+      </div>
+      <p class="section-desc">Offline modules for scoped testing, review, and reporting.</p>
+    </div>
+    <div class="arsenal">
+      <div class="arsenal-cell">
+        <div class="idx">M.01</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="4" y="8" width="36" height="28" rx="1"/>
+          <path d="M4 14h36M10 22l4 4-4 4M18 30h10"/>
+        </svg>
+        <h3>Shadow sandboxes</h3>
+        <p>Realistic lab profiles for repeatable tests.</p>
+        <div class="tag">12 profiles · hyperv · qemu</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.02</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <circle cx="22" cy="22" r="16"/>
+          <circle cx="22" cy="22" r="10"/>
+          <circle cx="22" cy="22" r="3" fill="currentColor"/>
+          <path d="M22 2v4M22 38v4M2 22h4M38 22h4"/>
+        </svg>
+        <h3>Detection matrix</h3>
+        <p>Offline rule snapshots for signal checks.</p>
+        <div class="tag">7 engines · yara · sigma · capa</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.03</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M22 4l16 9v18l-16 9L6 31V13z"/>
+          <path d="M22 4v40M6 13l32 18M38 13L6 31"/>
+        </svg>
+        <h3>Policy co-pilot</h3>
+        <p>Local notes and hardening suggestions.</p>
+        <div class="tag">Local 7B · no upload</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.04</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M8 12h28v24H8z"/>
+          <path d="M14 20h16M14 26h10M14 32h16"/>
+          <circle cx="36" cy="12" r="4" fill="currentColor"/>
+        </svg>
+        <h3>Telemetry hush</h3>
+        <p>No uploads. Air-gapped friendly.</p>
+        <div class="tag">Air-gapped · verifiable</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.05</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <rect x="6" y="6" width="14" height="14"/>
+          <rect x="24" y="6" width="14" height="14"/>
+          <rect x="6" y="24" width="14" height="14"/>
+          <rect x="24" y="24" width="14" height="14"/>
+          <path d="M13 13l18 18M31 13L13 31"/>
+        </svg>
+        <h3>Diff-view analyzer</h3>
+        <p>Compare runs and see what changed.</p>
+        <div class="tag">Time-travel debug</div>
+      </div>
+      <div class="arsenal-cell">
+        <div class="idx">M.06</div>
+        <svg class="icon" viewBox="0 0 44 44" fill="none" stroke="currentColor" stroke-width="1.4">
+          <path d="M22 4v14M22 26v14M4 22h14M26 22h14"/>
+          <circle cx="22" cy="22" r="5"/>
+        </svg>
+        <h3>Ethics gate</h3>
+        <p>Scoped manifest required.</p>
+        <div class="tag">Rules of engagement</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== PIPELINE ========== -->
+<section class="block" id="pipeline" style="border-top:1px solid var(--line-2);">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">02 · Pipeline</div>
+        <h2 class="section-title">Four steps to a <em>signed report.</em></h2>
+      </div>
+      <p class="section-desc">Simple flow. Reproducible output.</p>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step">
+        <div class="num">STEP 01</div>
+        <h4>Intake</h4>
+        <p>Load the approved scope file.</p>
+        <div class="detail">
+          <div>sha256 · imphash</div>
+          <div>entropy profile</div>
+          <div>scope / rule map</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">STEP 02</div>
+        <h4>Range check</h4>
+        <p>Run local checks against the matrix.</p>
+        <div class="detail">
+          <div>12 sandboxes parallel</div>
+          <div>policy + signal + static</div>
+          <div>evidence heatmap</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">STEP 03</div>
+        <h4>Review</h4>
+        <p>Review notes, diffs, and fixes.</p>
+        <div class="detail">
+          <div>llm + rule-based</div>
+          <div>review checks available</div>
+          <div>reversible journal</div>
+        </div>
+      </div>
+      <div class="pipe-step">
+        <div class="num">STEP 04</div>
+        <h4>Ghost</h4>
+        <p>Export the final report package.</p>
+        <div class="detail">
+          <div>avg 14 generations</div>
+          <div>clean attestation</div>
+          <div>engagement-bound</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== MATRIX ========== -->
+<section class="block" id="matrix" style="border-top:1px solid var(--line-2);">
+  <div class="container">
+    <div class="section-head">
+      <div>
+        <div class="section-kicker">03 · Detection matrix</div>
+        <h2 class="section-title">Signal checks, <em>at a glance.</em></h2>
+      </div>
+      <p class="section-desc">Offline snapshots. Redacted sample engines.</p>
+    </div>
+    <div class="matrix">
+      <div class="matrix-head">
+        <span>Target engine</span>
+        <span>Static</span>
+        <span>Heuristic</span>
+        <span>Behavior</span>
+        <span>Kernel</span>
+        <span>Memory</span>
+        <span>Outcome</span>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Vendor Alpha EDR <small>// enterprise-grade agent</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.03</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.02</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Vendor Beta NGAV <small>// behavioral + cloud</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Vendor Gamma XDR <small>// cross-layer detection</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.01</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Default OS Defender <small>// built-in protection</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+      <div class="matrix-row">
+        <div class="name">Open source YARA <small>// community rules</small></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="cell part"><span class="dot"></span><span class="pct">0.06</span></div>
+        <div class="cell pass"><span class="dot"></span><span class="pct">0.00</span></div>
+        <div class="status">Ghosted</div>
+      </div>
+    </div>
+    <p style="font-family:'JetBrains Mono';font-size:11px;color:var(--fg-faint);letter-spacing:0.06em;margin-top:20px;text-align:right;">
+      ⟶ Redacted sample data. Authorized evaluations only.
+    </p>
+  </div>
+</section>
+
+<!-- ========== PRODUCTS TEASER ========== -->
+<section class="block" id="products-teaser" style="border-top:1px solid var(--line-2);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-kicker">04 · The Phantom family</div>
+        <h2 class="section-title">Six builds under <em>one banner.</em></h2>
+      </div>
+      <p class="section-desc">Six short product cards. Pricing included.</p>
+    </div>
+    <div class="product-strip">
+      <a href="products.html" class="product-link featured">
+        <div>P.01</div>
+        <strong>PhantomVeil</strong>
+        <span>Policy drift review. Local reports.</span>
+      </a>
+      <a href="products.html" class="product-link">
+        <div>P.02</div>
+        <strong>PhantomSpoof</strong>
+        <span>Identity baseline simulator.</span>
+      </a>
+      <a href="products.html" class="product-link">
+        <div>P.03</div>
+        <strong>PhantomStress</strong>
+        <span>Authorized load + resilience.</span>
+      </a>
+      <a href="products.html" class="product-link">
+        <div>P.04</div>
+        <strong>PhantomBot</strong>
+        <span>Discord bot. 40+ modules.</span>
+      </a>
+      <a href="products.html" class="product-link">
+        <div>P.05</div>
+        <strong>PhantomRL</strong>
+        <span>Rocket League AI coach.</span>
+      </a>
+      <a href="products.html" class="product-link">
+        <div>P.06</div>
+        <strong>PhantomServices</strong>
+        <span>Operator-grade contract work.</span>
+      </a>
+    </div>
+    <div class="product-strip-action">
+      <a href="products.html" class="btn btn-ghost">
+        Browse the full catalog
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10m0 0L8 3m4 4L8 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="square"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FINAL ========== -->
+<section class="block final" id="download" style="border-top:1px solid var(--line-2);">
+  <div class="container">
+    <div class="final-ghost">
+      <svg viewBox="0 0 64 64" style="color: var(--phos)"><use href="#phantom-glyph"/></svg>
+    </div>
+    <h2>Ready to choose? <br><em>Start with a build.</em></h2>
+    <p>Browse the catalog, compare plans, and pick the product that fits.</p>
+    <div class="cta-row">
+      <a href="products.html" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9m0 0l3.5-3.5M7 10L3.5 6.5M1 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+        Browse catalog
+      </a>
+      <a href="#team" class="btn btn-ghost">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v9m0 0l3.5-3.5M7 10L3.5 6.5M1 12h12" stroke="currentColor" stroke-width="1.8" stroke-linecap="square"/></svg>
+        Meet the team
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="container foot">
+    <div class="legal">Phantom · Ethical use only · Engagement-bound</div>
+    <div class="links">
+      <a href="products.html">Products</a>
+      <a href="README.md">Docs</a>
+      <a href="#trust">Ethics policy</a>
+      <a href="mailto:security@example.com">Contact</a>
+    </div>
+    <div class="legal">v0.9.4-rc · build a3f9</div>
+  </div>
+</footer>
+
+</main>
+
+<script src="assets/js/phantom-explorer.js"></script>
+<script>
+// ============ Scrolling "video" effect ============
+// Two infinite-scrolling log panels with rotating content.
+
+const logSamples = [
+  ['12:47:03.441','init','loaded', 'sandbox profile <b>win11-enterprise</b>'],
+  ['12:47:03.512','hv','spawn', 'hyperv instance <b>A3F9.sbx.02</b>'],
+  ['12:47:03.619','rule','attach', 'local policy pack · version 7.31.4'],
+  ['12:47:04.023','intake','hash', 'sha256 <b>9f2c..7ab3</b>'],
+  ['12:47:04.102','scope','map', '42 controls · 7 review points'],
+  ['12:47:04.341','run','exec', 'scenario replay · baseline window'],
+  ['12:47:04.488','detect','warn', 'rule match: <b>unapproved policy drift</b>'],
+  ['12:47:04.612','review','queue', 'run 01 · 4 findings'],
+  ['12:47:04.907','review','apply', 'hardening note <b>service exposure</b>'],
+  ['12:47:05.131','review','apply', 'configuration diff <b>auth boundary</b>'],
+  ['12:47:05.402','review','apply', 'control mapping update'],
+  ['12:47:05.710','rerun','exec', 'run 01 · sandbox win11-enterprise'],
+  ['12:47:06.221','detect','ok', 'policy baseline · clean'],
+  ['12:47:06.402','detect','warn', 'behavior: timing anomaly'],
+  ['12:47:06.551','review','queue', 'run 02 · timing review'],
+  ['12:47:06.814','review','apply', 'service budget · replay note'],
+  ['12:47:07.104','rerun','exec', 'run 02'],
+  ['12:47:07.612','detect','ok', 'behavior reviewed · 0.00'],
+  ['12:47:07.803','detect','ok', 'scope clean · 0.00'],
+  ['12:47:07.998','phantom','ok', '<b>report ready · run 02</b>'],
+  ['12:47:08.223','export','write', 'artifact <b>report.a3f9.pdf</b>'],
+  ['12:47:08.401','manifest','sign', 'ed25519 · operator key'],
+];
+
+const codeSamples = [
+  ['01','<span class="cm">// run.17 — scoped policy review</span>'],
+  ['02','<span class="kw">fn</span> <span class="fn">load_scope</span>(manifest: &<span class="kw">Manifest</span>) {'],
+  ['03','  <span class="kw">let</span> seed = <span class="num">0xA3F97C21</span>;'],
+  ['04','  scope.<span class="fn">verify_signature</span>(manifest);'],
+  ['05','    scope.<span class="fn">lock_targets</span>(manifest.targets);'],
+  ['06','    report.<span class="fn">open_run</span>(run_id);'],
+  ['07','  }'],
+  ['08','}'],
+  ['09',''],
+  ['10','<span class="cm">// compare signals against local rules</span>'],
+  ['11','<span class="kw">fn</span> <span class="fn">review_controls</span>(signals: Vec&lt;Signal&gt;) {'],
+  ['12','  <span class="kw">let</span> matrix = Rules::<span class="fn">local</span>();'],
+  ['13','  <span class="kw">for</span> signal <span class="kw">in</span> signals {'],
+  ['14','    matrix.<span class="fn">map</span>(signal.policy_id);'],
+  ['15','  }'],
+  ['16','}'],
+  ['17',''],
+  ['18','<span class="cm">// signed report export</span>'],
+  ['19','<span class="kw">async fn</span> <span class="fn">write_report</span>(run: Run) {'],
+  ['20','  Report::<span class="fn">from</span>(run).<span class="fn">await</span>;'],
+  ['21','}'],
+  ['22',''],
+  ['23','<span class="cm">// evidence bundle</span>'],
+  ['24','<span class="kw">fn</span> <span class="fn">attach_evidence</span>(run: &<span class="kw">Run</span>) {'],
+  ['25','  <span class="kw">let</span> key = Bundle::<span class="fn">derive</span>(<span class="str">"phantom.a3f9"</span>);'],
+  ['26','  run.<span class="fn">attach</span>(<span class="str">"evidence.json"</span>, key);'],
+  ['27','}'],
+  ['28',''],
+  ['29','<span class="cm">// export loop</span>'],
+  ['30','<span class="kw">loop</span> {'],
+  ['31','  <span class="kw">let</span> v = run_matrix(&scope).<span class="fn">await</span>;'],
+  ['32','  <span class="kw">if</span> v.<span class="fn">reviewed</span>() { <span class="kw">break</span>; }'],
+  ['33','  report = reviewer.<span class="fn">propose</span>(v).<span class="fn">await</span>;'],
+  ['34','}'],
+];
+
+function buildLogLine([ts, tag, kind, msg]) {
+  const kindClass = {warn:'warn',err:'err',ok:'ok',run:'err',detect:(kind==='warn'?'warn':kind==='ok'?'ok':''), phantom:'ok', export:'ok', manifest:'ok'}[tag] || '';
+  const tagHTML = `<span class="tag ${kindClass}">${tag.padEnd(8,' ').slice(0,8)}</span>`;
+  const kindHTML = `<span class="tag ${kindClass}">${(kind||'').padEnd(6,' ').slice(0,6)}</span>`;
+  return `<div class="log-line"><span class="ts">${ts}</span>${tagHTML}${kindHTML}<span class="msg">${msg}</span></div>`;
+}
+
+function buildCodeLine([ln, html]) {
+  return `<div class="code-line"><span class="ln">${ln}</span>${html}</div>`;
+}
+
+function seedTrack(el, items, builder, copies=4) {
+  // Triple up content so scroll looks endless
+  let html = '';
+  for (let i=0;i<copies;i++) html += items.map(builder).join('');
+  el.innerHTML = html;
+}
+
+const logTrack = document.getElementById('log-track');
+const codeTrack = document.getElementById('code-track');
+seedTrack(logTrack, logSamples, buildLogLine, 6);
+seedTrack(codeTrack, codeSamples, buildCodeLine, 6);
+
+let logY = 0, codeY = 0;
+let logSpeed = 0.35, codeSpeed = 0.22;
+let lastTs = performance.now();
+function tick(ts) {
+  const dt = Math.min(50, ts - lastTs); lastTs = ts;
+  logY += logSpeed * dt;
+  codeY += codeSpeed * dt;
+  // reset at half height for seamless loop
+  const logH = logTrack.scrollHeight / 2;
+  const codeH = codeTrack.scrollHeight / 2;
+  if (logY > logH) logY -= logH;
+  if (codeY > codeH) codeY -= codeH;
+  logTrack.style.transform = `translateY(${-logY}px)`;
+  codeTrack.style.transform = `translateY(${-codeY}px)`;
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+// Occasionally jitter counters for "live" feel
+const sid = document.getElementById('sid');
+const lc  = document.getElementById('lc');
+const gc  = document.getElementById('gc');
+setInterval(() => {
+  const rand = () => Math.floor(Math.random()*16).toString(16).toUpperCase();
+  sid.textContent = `${rand()}${rand()}${rand()}${rand()}-${rand()}${rand()}${rand()}${rand()}`;
+}, 4200);
+let logCount = 421, genCount = 17;
+setInterval(() => { logCount += Math.floor(Math.random()*3)+1; lc.textContent = String(logCount).padStart(4,'0'); }, 320);
+setInterval(() => { genCount += 1; gc.textContent = genCount; }, 6000);
+
+// ============ Scroll progress + parallax + speed boost ============
+const gridBg = document.querySelector('.grid-bg');
+const progress = document.getElementById('progress');
+let userSpeedMult = 0.4;
+
+// Lenis-style smooth-scroll wheel augmenter: we already use CSS smooth-scroll
+// for anchors; for wheel we add easing to momentum.
+let targetY = window.scrollY, currentY = window.scrollY;
+let smoothOn = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function onScroll() {
+  const y = window.scrollY;
+  const max = document.documentElement.scrollHeight - window.innerHeight;
+  progress.style.width = (max > 0 ? (y/max)*100 : 0) + '%';
+  gridBg.style.backgroundPosition = `0 ${-y*0.3}px, 0 ${-y*0.3}px`;
+  const boost = Math.min(2.5, 1 + y / 500) * userSpeedMult;
+  logSpeed = 0.35 * boost;
+  codeSpeed = 0.22 * boost;
+}
+window.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+// ============ Reveal on scroll ============
+const revealEls = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, {threshold: 0.12});
+revealEls.forEach(el => io.observe(el));
+
+</script>
+
 </body>
 </html>

@@ -1,4 +1,10 @@
-# Phantom — SEO, Architecture & Performance Refactor
+# Phantom — SEO, Architecture, Performance & Style Lab Refactor
+
+## Current status
+
+Implemented locally. The landing page is now `index.html`, shared CSS lives in `assets/css/phantom.css`, the product page uses the shared style system, and the site includes `404.html`, `robots.txt`, `sitemap.xml`, favicon/touch/OG placeholder assets, and a reusable `assets/js/phantom-explorer.js` controller.
+
+Deviation from the original plan: `Phantom.html` is retained as a small compatibility redirect to `index.html` instead of being removed outright. The implementation also adds an explorable Style Lab with eight color themes and seven background modes so visual directions can be compared in-browser before choosing a final default.
 
 ## Context
 

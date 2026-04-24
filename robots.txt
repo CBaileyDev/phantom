@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://cbaileydev.github.io/phantom/sitemap.xml
